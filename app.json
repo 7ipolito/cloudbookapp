@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "cloudbook",
+    "slug": "cloudbook",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "cloudbook"
+}
