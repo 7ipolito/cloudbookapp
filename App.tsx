@@ -9,6 +9,7 @@ import theme from './src/global/theme';
 import { Dashboard } from './src/screens/Dashboard';
 import { Profile } from './src/screens/Profile';
 import { SelectEmoji } from './src/screens/SelectEmoji';
+import { AddImage } from './src/screens/AddImage';
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -29,7 +30,7 @@ export default function App() {
     translucent
   />
     <ThemeProvider theme={theme}>
-      <Dashboard/>
+      <AddImage/>
 
     </ThemeProvider>
     </>

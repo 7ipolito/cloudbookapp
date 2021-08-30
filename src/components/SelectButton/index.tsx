@@ -1,5 +1,5 @@
 import React from 'react';
-import { Emoji, Container, Icon } from './styles';
+import { Text, Container, Icon } from './styles';
 
 interface Props{
     title:string;
@@ -14,7 +14,7 @@ export function SelectButton({
 }:Props){
     return(
         <Container onPress={onPress}>
-            <Emoji>{emoji} {title}</Emoji>
+            <Text>{emoji} {title}</Text>
             <Icon name="chevron-down"/>
         </Container>
     )

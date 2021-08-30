@@ -14,7 +14,7 @@ import { SelectEmoji } from '../SelectEmoji';
 import { Button } from '../../components/Button';
 export function Profile(){
     const [emoji,setEmoji]=useState({
-        key: '5',
+        key: '1',
         title:'Maçã',
         emoji:'🍎'
     })
@@ -59,7 +59,10 @@ export function Profile(){
                 
             </Form>
 
-            
+            <Footer>
+                <Button title='Confirmar mudanças' onPress={()=>{}}/>
+            </Footer>
+
             <Modal
                 statusBarTranslucent
                 animationType={'slide'}
@@ -69,11 +72,8 @@ export function Profile(){
                         emoji={emoji}
                         setEmoji={setEmoji}
                         closeSelectEmoji={handleCloseSelectEmojiModal}
-                    />
+            />
              </Modal>
-            <Footer>
-                <Button title='Confirmar mudanças' onPress={()=>{}}/>
-            </Footer>
         </Container>
     )
 }

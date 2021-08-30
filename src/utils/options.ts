@@ -11,8 +11,15 @@ export const options = [
 ]
 
 export const emojis = [
-  { key: '5', title: 'Maçã', emoji: '🍎' },
-  { key: '6', title: 'Raio', emoji: '⚡' },
-  { key: '7', title: 'Jacaré', emoji: '🐊' },
-  { key: '8', title: 'Boneco de neve', emoji: '⛄' },
+  { key: '1', title: 'Maçã', emoji: '🍎' },
+  { key: '2', title: 'Raio', emoji: '⚡' },
+  { key: '3', title: 'Jacaré', emoji: '🐊' },
+  { key: '4', title: 'Boneco de neve', emoji: '⛄' },
+]
+
+export const categories = [
+  { key: '1', title: 'Matématica', emoji: '🍎' },
+  { key: '2', title: 'Química', emoji: '⚡' },
+  { key: '3', title: 'Poemas', emoji: '🐊' },
+  { key: '4', title: 'Escola das artes', emoji: '⛄' },
 ]
