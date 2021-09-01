@@ -12,17 +12,19 @@ export default {
       attention_light: 'rgba(232, 63, 91, 0.5)',
   
       shape: '#FFFFFF',
-      title: '#363F5F',
+      title: '#343434',
       text: '#F4EDE8',
       iconInput:'#666360',
+      card:'#3E3B47',
       input:'#232129',
-      background: '#252521',
+      background: '#222222',
     },
 
     fonts:{
       regular:'RobotoSlab_400Regular',
       medium:'RobotoSlab_500Medium',
-      bold:'RobotoSlab_700Bold'
+      bold:'RobotoSlab_700Bold',
+      card:'Rajdhani_700Bold'
     }
   
   }

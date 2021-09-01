@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { ChangePhoto, CircleCamera, Container, Footer, IconBack, IconExit } from './styles';
 import{
     Header,
@@ -9,15 +9,24 @@ import{
 } from './styles'
 import { Input } from '../../components/Forms/Input';
 import { SelectButton } from '../../components/SelectButton';
-import { Modal } from 'react-native';
+import { Alert, Modal } from 'react-native';
 import { SelectEmoji } from '../SelectEmoji';
 import { Button } from '../../components/Button';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { NavigationProps } from '../AddImage';
+import { useEffect } from 'react';
+
 export function Profile(){
     const [emoji,setEmoji]=useState({
-        key: '1',
+        key: '0',
         title:'Maçã',
         emoji:'🍎'
     })
+    const navigation = useNavigation<NavigationProps>()
+
+    const[nameUser,setNameUser]=useState('User')
+    const[errorInput,setErrorInput]=useState('');
 
     const [emojiModalOpen,setEmojiModalOpen]=useState(false);
 
@@ -29,6 +38,46 @@ export function Profile(){
     function handleOpenSelectEmojiModal(){
         setEmojiModalOpen(true);
     }
+
+    async function handleSave(){
+       setErrorInput('')
+       if(!nameUser)
+       return setErrorInput('Preenchimento Obrigátorio')
+       
+       try {
+           await AsyncStorage.setItem('nameUser',nameUser)
+           await AsyncStorage.setItem('emojiUser',JSON.stringify(emoji))
+
+           navigation.navigate('Dashboard');
+       } catch (error) {
+           console.log(error)
+           return Alert.alert('Erro ao salvar')
+       }
+    }
+
+    async function getData(){
+        
+        try {
+            const nameUser=await AsyncStorage.getItem('nameUser');
+            
+            const emojiUser=await AsyncStorage.getItem('emojiUser');
+
+            const currentEmoji = emojiUser ? JSON.parse(emojiUser) : [];
+
+            setNameUser(nameUser || 'User')
+            setEmoji(currentEmoji)
+ 
+            
+        } catch (error) {
+            console.log(error)
+           return Alert.alert('Erro ao salvar')
+        }
+     }
+
+    useFocusEffect(useCallback(()=>{
+        getData();
+    },[]))
+
     return(
         <Container>
             <Header>
@@ -46,8 +95,10 @@ export function Profile(){
                 </ChangePhoto>
 
                 <Input
-                 icon='person-outline' 
-                 value="Allan Hipólito"
+                    icon='person-outline' 
+                    value={nameUser}
+                    onChangeText={text=>setNameUser(text)}
+                    error={errorInput===""?null:errorInput}
                  />
                 
                 <SelectButton 
@@ -60,7 +111,7 @@ export function Profile(){
             </Form>
 
             <Footer>
-                <Button title='Confirmar mudanças' onPress={()=>{}}/>
+                <Button title='Confirmar mudanças' onPress={handleSave}/>
             </Footer>
 
             <Modal

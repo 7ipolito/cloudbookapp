@@ -4,11 +4,12 @@ import AudioSvg from '../assets/audio.svg';
 import StatsSvg from '../assets/stats.svg';
 
 export const options = [
-  { key: '1', title: 'Foto', icon: PhotoSvg },
-  { key: '2', title: 'Anotação', icon: AnotationSvg },
-  { key: '3', title: 'Áudio', icon: AudioSvg },
-  { key: '4', title: 'Estatísticas', icon: StatsSvg },
+  { key: '1', title: 'Foto', icon: PhotoSvg, screen:'AddImage' },
+  { key: '2', title: 'Anotação', icon: AnotationSvg, screen:'Profile' },
+  { key: '3', title: 'Áudio', icon: AudioSvg, screen:'' },
+  { key: '4', title: 'Estatísticas', icon: StatsSvg, screen:'' },
 ]
+
 
 export const emojis = [
   { key: '1', title: 'Maçã', emoji: '🍎' },

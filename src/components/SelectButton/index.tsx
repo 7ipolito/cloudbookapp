@@ -1,7 +1,8 @@
 import React from 'react';
+import { RectButtonProps } from 'react-native-gesture-handler';
 import { Text, Container, Icon } from './styles';
 
-interface Props{
+interface Props extends RectButtonProps{
     title:string;
     emoji?:string;
     onPress:()=>void;

@@ -32,3 +32,12 @@ export const Icon = styled(Ionicons)`
     color: ${({theme})=> theme.colors.iconInput};
     margin-right: 16px;
 `
+
+export const Error= styled.Text`
+    font-size: ${RFValue(14)}px;
+    margin-right: 90px;
+    font-family:${({theme})=>theme.fonts.regular};
+    color: ${({theme})=>theme.colors.attention};
+
+
+`

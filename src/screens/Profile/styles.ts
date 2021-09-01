@@ -2,6 +2,7 @@ import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
 import {Ionicons} from '@expo/vector-icons'
 import { Feather } from '@expo/vector-icons'; 
+import { RectButton } from "react-native-gesture-handler";
 
 export const Container= styled.View`
     flex: 1;
@@ -53,7 +54,7 @@ export const Photo=styled.Image`
     border-radius: 90px;
 `
 
-export const CircleCamera=styled.TouchableOpacity`
+export const CircleCamera=styled(RectButton)`
     width:${RFValue(50)}px;
     height:${RFValue(50)}px;
     border-radius: 40px;

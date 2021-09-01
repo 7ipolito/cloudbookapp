@@ -4,13 +4,28 @@ import { Input } from '../../components/Forms/Input';
 import { InputForm } from '../../components/InputForm';
 import { SelectButton } from '../../components/SelectButton';
 import { IconExit } from '../Profile/styles';
-import { Container, Header, ImageContent, IconBack, Title, ChangePhoto, CircleCamera, TargetCamera, Footer } from './styles';
+import { Container,
+    Header,
+    ImageContent,
+    IconBack, 
+    Title,
+    ChangePhoto, 
+    CircleCamera,
+    TargetCamera, 
+    Footer,
+    BackButton } from './styles';
 import {useForm} from 'react-hook-form'
 import { useState } from 'react';
 import { Alert, Modal } from 'react-native';
 import { Category, SelectCategory } from '../SelectCategory';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import {useNavigation} from '@react-navigation/native'
+
+
+export type NavigationProps = {
+    navigate:(screen:string) => void;
+ }
 
 interface FormData{
     subject:string;
@@ -23,6 +38,8 @@ const schema = yup.object().shape({
   
 
 export function AddImage(){
+    const navigation = useNavigation<NavigationProps>()
+
     const[category,setCategory]=useState({
         key:'category',
         title:'Categoria',
@@ -57,15 +74,19 @@ export function AddImage(){
         }
 
         console.log(data)
+        navigation.navigate('Dashboard');
+
     }
     return(
        
 
         <Container>
-                <Header>
+            <Header>
                 <IconBack name='md-arrow-back'/>
                 <Title>Adicionar Imagem</Title>
-                <IconExit name=''/>
+                <BackButton>
+                    <IconExit name=''/>
+                </BackButton>
             </Header>
 
             <ChangePhoto>
@@ -92,7 +113,10 @@ export function AddImage(){
             />
 
             <Footer>
-                <Button title='Salvar' onPress={handleSubmit(handleSave)}/>
+                <Button 
+                title='Salvar'
+                    onPress={handleSubmit(handleSave)}
+                 />
             </Footer>
 
             <Modal
