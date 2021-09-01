@@ -5,7 +5,7 @@ import StatsSvg from '../assets/stats.svg';
 
 export const options = [
   { key: '1', title: 'Foto', icon: PhotoSvg, screen:'AddImage' },
-  { key: '2', title: 'Anotação', icon: AnotationSvg, screen:'Profile' },
+  { key: '2', title: 'Anotação', icon: AnotationSvg, screen:'AddAnnotation' },
   { key: '3', title: 'Áudio', icon: AudioSvg, screen:'' },
   { key: '4', title: 'Estatísticas', icon: StatsSvg, screen:'' },
 ]
@@ -13,9 +13,21 @@ export const options = [
 
 export const emojis = [
   { key: '1', title: 'Maçã', emoji: '🍎' },
-  { key: '2', title: 'Raio', emoji: '⚡' },
-  { key: '3', title: 'Jacaré', emoji: '🐊' },
-  { key: '4', title: 'Boneco de neve', emoji: '⛄' },
+  { key: '2', title: 'Formando', emoji: '👨🏻‍🎓' },
+  { key: '3', title: 'Formanda', emoji: '👩🏻‍🎓' },
+  { key: '4', title: 'Ábobora', emoji: '🎃' },
+  { key: '5', title: 'Aladin', emoji: '🧞‍♂️' },
+  { key: '6', title: 'Lo-fi', emoji: '🌆' },
+  { key: '7', title: 'Raio', emoji: '⚡' },
+  { key: '8', title: 'Jacaré', emoji: '🐊' },
+  { key: '9', title: 'Boneco de neve', emoji: '⛄' },
+  { key: '10', title: 'Hashi Japonês', emoji: '🥢' },
+  { key: '11', title: 'Controle Video game', emoji: '🎮' },
+  { key: '12', title: 'Estátua do Imalaia', emoji: '🗿' },
+  { key: '13', title: 'Estátua da Liberdade', emoji: '🗽' },
+  { key: '14', title: 'Bandeira do Brasil', emoji: '🇧🇷' },
+  { key: '15', title: 'Café', emoji: '☕️' },
+
 ]
 
 export const categories = [
@@ -24,3 +36,4 @@ export const categories = [
   { key: '3', title: 'Poemas', emoji: '🐊' },
   { key: '4', title: 'Escola das artes', emoji: '⛄' },
 ]
+

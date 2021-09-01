@@ -20,6 +20,7 @@ export function Card({
     return(
         <Container 
         onPress={onPress}
+        
         {...rest}>
             <Icon />
             <Title>{title}</Title>

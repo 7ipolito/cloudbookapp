@@ -16,7 +16,7 @@ export default {
       text: '#F4EDE8',
       iconInput:'#666360',
       card:'#3E3B47',
-      input:'#232129',
+      input:'#090F0F',
       background: '#222222',
     },
 

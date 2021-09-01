@@ -7,13 +7,16 @@ export const Container = styled(RectButton)`
     height: ${RFValue(60)}px;
 
     background-color: ${({theme})=> theme.colors.input};
+
     flex-direction: row;
     
     justify-content: space-between;
     align-items: center;
-
+    
     border-radius: 5px;
     padding: 18px 16px;
+
+    margin-bottom: 16px;
 `;
 
 export const Text = styled.Text`

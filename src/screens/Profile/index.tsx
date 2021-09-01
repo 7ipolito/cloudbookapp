@@ -88,7 +88,7 @@ export function Profile(){
 
             <Form>
                 <ChangePhoto>
-                    <Photo source={{uri:'https://media-exp1.licdn.com/dms/image/C4E03AQEmxvqSNl565Q/profile-displayphoto-shrink_800_800/0/1629309995504?e=1635379200&v=beta&t=jFX1GhKjO54e5-YQs_l5MQ00bmMXH6ECT-akxnolf0k'}}/>
+                    <Photo source={{uri:'https://wallery.app/dufovot/naruto-wallpaper.webp'}}/>
                     <CircleCamera>
                         <TargetCamera name="camera"/>
                     </CircleCamera>

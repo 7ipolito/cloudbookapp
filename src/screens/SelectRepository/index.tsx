@@ -4,28 +4,30 @@ import { StatusBar } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { Button } from '../../components/Button';
 import { categories, emojis } from '../../utils/options';
-import { Category, Container, Footer, Header, Icon, Name, Separator, Title } from './styles';
+import { repositories } from '../Dashboard';
+import { Container, Footer, Header, Icon, Name, Repository, Separator, Title } from './styles';
 
-export interface Category{
-    key:string;
+export interface Repository{
+    id:string;
     title:string;
+    image:string;
     
 }
 
 interface Props{
-    category:Category;
-    setCategory: (category:Category)=>void;
-    closeSelectCategory:()=>void;
+    repository:Repository;
+    setRepository: (repository:Repository)=>void;
+    closeSelectRepository:()=>void;
 }
-export function SelectCategory({
-    category,
-    setCategory,
-    closeSelectCategory
+export function SelectRepository({
+    repository,
+    setRepository,
+    closeSelectRepository
 }:Props){
 
 
-    function handleCategorySelect(category: Category){
-        setCategory(category);
+    function handleRepositorySelect(repository: Repository){
+        setRepository(repository);
     }
 
     return(
@@ -41,16 +43,16 @@ export function SelectCategory({
             </Header>
 
             <FlatList
-            data={categories}
+            data={repositories}
             style={{flex:1,width:'100%'}}
-            keyExtractor={(item)=>item.key}
+            keyExtractor={(item)=>item.id}
             renderItem={({item})=>(
-                <Category
-                onPress={()=> handleCategorySelect(item)}
-                isActive={category.key === item.key}
-            >
+                <Repository
+                onPress={()=> handleRepositorySelect(item)}
+                isActive={repository.id === item.id}
+                >
                 <Name>{item.title}</Name>
-            </Category>
+            </Repository>
             )}
             ItemSeparatorComponent={()=><Separator/>}
 
@@ -58,8 +60,8 @@ export function SelectCategory({
 
             <Footer>
               <Button 
-              title="Selecionar Categoria"
-              onPress={closeSelectCategory}/>
+              title="Selecionar Repositório"
+              onPress={closeSelectRepository}/>
             </Footer>
                 
         </Container>
