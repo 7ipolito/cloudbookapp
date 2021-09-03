@@ -108,8 +108,10 @@ export function Dashboard({}){
             if(!nameScreen)
                 return Alert.alert("Funcionalidade não implementada")
             navigation.navigate(nameScreen)    
-        
-        
+    }
+
+    function handleGoSubjects(){
+        navigation.navigate('Subjects')
     }
 
     useFocusEffect(useCallback(()=>{
@@ -159,7 +161,7 @@ export function Dashboard({}){
                 <RepositoryList
                     data={repositories}
                     keyExtractor={item => item.id}
-                    renderItem={({item})=> <Repository data={item}/>}
+                    renderItem={({item})=> <Repository onPress={handleGoSubjects} data={item}/>}
                 />
                 
             
@@ -168,6 +170,7 @@ export function Dashboard({}){
             </ScrollView>
             <FabButton
                 icon='addfolder'
+                type='addRepository'
                 onPress={handleAddRepository}
              />
         </Container>

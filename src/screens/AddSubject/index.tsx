@@ -12,9 +12,6 @@ import { Container,
     Footer,
     BackButton } from './styles';
 import {useForm} from 'react-hook-form'
-import { useState } from 'react';
-import { Alert, Modal } from 'react-native';
-import { Category, SelectCategory } from '../SelectCategory';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import {useNavigation} from '@react-navigation/native'
@@ -23,21 +20,28 @@ import { Repository, SelectRepository } from '../SelectRepository';
 import { options,categories } from '../../utils/options';
 
 
+export interface Subject{
+    id:string;
+    title:string;
+    image:string;
+    
+}
+
 export type NavigationProps = {
     navigate:(screen:string) => void;
  }
 
 interface FormData{
     
-    repository:Repository;
+    subject:Subject;
 }
 
 const schema = yup.object().shape({
-    repository: yup.string().required("Preenchimento obrigatório"),
+    subject: yup.string().required("Preenchimento obrigatório"),
   });
   
 
-export function AddRepository(){
+export function AddSubject(){
     const navigation = useNavigation<NavigationProps>()
 
     const {
@@ -52,13 +56,13 @@ export function AddRepository(){
     function handleSave(content:FormData){
       
         
-        const repository={
+        const subject={
             image:'example.jpg',
-            name:content.repository
+            name:content.subject
         }
-        console.log(repository)
+        console.log(subject)
         
-        navigation.navigate('Dashboard');
+        navigation.navigate('Subjects');
 
     }
     return(
@@ -66,24 +70,24 @@ export function AddRepository(){
 
         <Container>
          <Header
-            title="Adicionar Repositório"
+            title="Adicionar Disciplina"
             type='addContent'
         />
 
             <ChangePhoto>
-                    <ImageContent source={{uri:'https://c4.wallpaperflare.com/wallpaper/991/886/526/naruto-deidara-naruto-hidan-naruto-itachi-uchiha-kakuzu-naruto-hd-wallpaper-preview.jpg'}}/>
+                    <ImageContent source={{uri:'https://www.oficinadanet.com.br/imagens/post/28270/suits.jpg'}}/>
                     <CircleCamera>
                         <TargetCamera name="camera"/>
                     </CircleCamera>
             </ChangePhoto>
 
             <InputForm 
-                name='repository'
+                name='subject'
                 control={control}
                 icon='pencil'
                 autoCapitalize='sentences'
-                error={errors.repository && errors.repository.message}
-                placeholder='Nome do repositório'
+                error={errors.subject && errors.subject.message}
+                placeholder='Nome da disciplina'
                 placeholderTextColor='#666360'
             />
 

@@ -6,6 +6,9 @@ import { useTheme } from 'styled-components';
 import { Profile } from '../screens/Profile';
 import { AddAnottation } from '../screens/AddAnnotation';
 import { AddRepository } from '../screens/AddRepository';
+import { Subjects } from '../screens/Subjects';
+import { AddSubject } from '../screens/AddSubject';
+import { Contents } from '../screens/Contents';
 
 const {Navigator, Screen}= createNativeStackNavigator();
 
@@ -24,6 +27,16 @@ export function AppRoutes(){
                 component={Dashboard}
             />
 
+            <Screen
+                name='Subjects'
+                component={Subjects}
+            />
+
+            <Screen
+                name='Contents'
+                component={Contents}
+            />
+
             <Screen 
                 name='Profile'
                 component={Profile}
@@ -37,6 +50,11 @@ export function AppRoutes(){
             <Screen
                 name='AddRepository'
                 component={AddRepository}
+            />
+
+            <Screen
+                name='AddSubject'
+                component={AddSubject}
             />
 
 

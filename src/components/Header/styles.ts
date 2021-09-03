@@ -1,6 +1,7 @@
 import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
+import { BorderlessButton } from "react-native-gesture-handler";
 export const Container=styled.View`
     width: 100%;
     height: ${RFValue(56)}px;
@@ -38,6 +39,21 @@ export const IconScreen=styled.Image`
     
    background-color: red;
     
+`
+export const BackButton=styled(BorderlessButton)`
+    align-items: center;
+`
+export const ImageButton=styled(BorderlessButton)`
+    align-items: center;
+`
+
+export const ImageHeader= styled.Image`
+    width: ${RFValue(56)}px;
+   height: ${RFValue(56)}px;
+   margin-right: 16px;
+   border-radius: 40px;
+    
+   
 `
 
 
