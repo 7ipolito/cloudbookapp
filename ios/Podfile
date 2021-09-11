@@ -18,4 +18,7 @@ target 'Cloudbook' do
   #     flipper_post_install(installer)
   #   end
   # end
+
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
 end
