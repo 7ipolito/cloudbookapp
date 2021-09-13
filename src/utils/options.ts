@@ -38,3 +38,9 @@ export const categories = [
 ]
 
 export const cloudbookPath = '/storage/emulated/0/Cloudbook';
+export const imagesPath = '/storage/emulated/0/Cloudbook/images';
+export const repositoriesImagesPath = '/storage/emulated/0/Cloudbook/images/repositories';
+export const subjectsImagesPath = '/storage/emulated/0/Cloudbook/images/subjects';
+
+
+export const imagesGetRepositoriesPath='file:///storage/emulated/0/Cloudbook/images/repositories'

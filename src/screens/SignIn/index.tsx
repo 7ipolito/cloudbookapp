@@ -20,8 +20,8 @@ import { StorageAccessFramework,  } from 'expo-file-system';
 
 import * as FS from 'react-native-fs';
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { Alert } from 'react-native';
-import { cloudbookPath } from '../../utils/options';
+import { Alert, PermissionsAndroid } from 'react-native';
+import { cloudbookPath, imagesPath, repositoriesImagesPath, subjectsImagesPath } from '../../utils/options';
 
 
 type NavigationProps = {
@@ -45,14 +45,42 @@ export function SignIn({}){
 
 
     function handleStart(){
-        createFolderMain();
+        getPermissionStorage();
+        
+    }
+
+    async function getPermissionStorage(){
+        try {
+            const granted = await PermissionsAndroid.request(
+              PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+              {
+                title: "Permissão para armazenamento",
+                message:
+                  "O Cloudbook precisa dessa permissão para funcionar corretamente",
+                buttonNegative: "Cancelar",
+                buttonPositive: "OK"
+              }
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                createFolderMain();
+            } else {
+              return Alert.alert("Permissão de armazenamento negada...");
+              
+            }
+          } catch (err) {
+            console.warn(err);
+            return false;
+          }
     }
 
     async function createFolderMain(){
+        
+
         const exists = await FS.exists(cloudbookPath);
         if (!exists){
-          await FS.mkdir(cloudbookPath).then(r=>{
-        
+          await FS.mkdir(cloudbookPath).then(async r=>{
+                createFolderImages();
+
           }).catch(err=>{
               console.log(err)
               return Alert.alert("Erro ao criar pasta")
@@ -62,6 +90,39 @@ export function SignIn({}){
         navigation.navigate('Dashboard')
         
     }
+
+    async function createFolderImages(){
+        await FS.mkdir(imagesPath).then(r=>{
+            createFolderRepositoriesImages();
+            
+        }).catch(err=>{
+            console.log(err)
+            return Alert.alert("Erro ao criar pasta")
+        
+        })
+    }
+
+    async function createFolderRepositoriesImages(){
+        await FS.mkdir(repositoriesImagesPath).then(r=>{
+            createFolderSubjectsImages();
+        }).catch(err=>{
+            console.log(err)
+            return Alert.alert("Erro ao criar pasta")
+        
+        })
+    }
+
+    async function createFolderSubjectsImages(){
+        await FS.mkdir(subjectsImagesPath).then(r=>{
+            
+        }).catch(err=>{
+            console.log(err)
+            return Alert.alert("Erro ao criar pasta")
+        
+        })
+    }
+
+
 
  
 

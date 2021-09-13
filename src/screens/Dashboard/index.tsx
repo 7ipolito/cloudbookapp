@@ -9,9 +9,9 @@ import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { Card } from "../../components/Card";
 import { FabButton } from "../../components/FabButton";
 import { Repository, RepositoryProps } from "../../components/Repository";
-import { cloudbookPath, options } from "../../utils/options";
+import { cloudbookPath, options, repositoriesImagesPath } from "../../utils/options";
 import { NavigationProps } from "../AddImage";
-import { Container, NameUser, PhotoButton, Slider,Cards,Title } from "./styles";
+import { Container, NameUser, PhotoButton, Slider,Cards,Title, EmojiButton } from "./styles";
 import uuid from 'react-native-uuid';
 
 import{
@@ -32,26 +32,33 @@ export interface DataListProps extends RepositoryProps{
 
 export function Dashboard({}){
     const navigation = useNavigation<NavigationProps>()
+    const [imageUser,setImageUser]=useState('');
     const [nameUser,setNameUser]= useState('User');
     const [repositories,setRepositories]=useState<DataListProps[]>([])
     const [emoji,setEmoji]=useState({
-        key: '1',
-        title:'Maçã',
-        emoji:'🍎'
+        key: '14',
+        title:'Bandeira do Brasil',
+        emoji:'🇧🇷'
     })
    
 
     async function getData(){
         
         try {
+            const imageUser = await AsyncStorage.getItem("imageUser");
+
             const nameUser=await AsyncStorage.getItem('nameUser');
             
             const emojiUser=await AsyncStorage.getItem('emojiUser');
 
             const currentEmoji = emojiUser ? JSON.parse(emojiUser) : [];
 
+            setImageUser(imageUser || '')
             setNameUser(nameUser || 'User')
-            setEmoji(currentEmoji)
+            if(currentEmoji.emoji){
+                setEmoji(currentEmoji)
+            }
+            
  
             
         } catch (error) {
@@ -84,20 +91,28 @@ export function Dashboard({}){
 
     async function listRepositories(){
         const folders:ReadDirItem[] = await FS.readDir(cloudbookPath)
-
+        console.log(folders)
         const repositories:DataListProps[] =[]
         folders.map((folder=>{
-            repositories.push({
-                id:String(uuid.v4()),
-                date:Intl.DateTimeFormat('pt-BR', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric'
-                  }).format(folder.mtime),
-                image:'https://png.pngtree.com/png-clipart/20190520/original/pngtree-shopping-cart-vector-icon-png-image_3725474.jpg',
-                number_subjects:0,
-                title:folder.name
-            })
+            const nameImage = folder.name.substring(folder.name.indexOf("|")+1);
+            const nameRepository = folder.name.substring(0,folder.name.indexOf("|"))
+            
+            console.log(nameImage)
+            console.log(nameRepository)
+            if(folder.name!='images'){
+                repositories.push({
+                    id:String(uuid.v4()),
+                    date:Intl.DateTimeFormat('pt-BR', {
+                        day: '2-digit',
+                        month: 'narrow',
+                        year: 'numeric'
+                      }).format(folder.mtime),
+                    image:"file://"+repositoriesImagesPath+"/"+nameImage+".jpg",
+                    number_subjects:0,
+                    title:nameRepository
+                })
+            }
+            
         }))
 
         
@@ -110,8 +125,9 @@ export function Dashboard({}){
 
     useFocusEffect(useCallback(()=>{
         LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-        listRepositories();
         getData();
+        listRepositories();
+        
     },[]))
 
     return(
@@ -125,15 +141,19 @@ export function Dashboard({}){
                     </NameUser>
                     
                 </Text>
-                <Emoji>
-                {emoji.emoji}
-                </Emoji>
+                <EmojiButton>
+                    <Emoji>
+                    {emoji.emoji}
+                    </Emoji>
+                </EmojiButton>
+                
                 <PhotoButton 
                     onPress={handleChangeProfile}
                 >
-                <Photo 
-                    source={{uri:'https://wallery.app/dufovot/naruto-wallpaper.webp'}}
-                />
+                {imageUser=== '' 
+                    ?<Photo source={require('../../assets/404_profile.png')}/>
+                    :<Photo source={{uri:imageUser}}/>
+                }
                 </PhotoButton>
             </Header>
             <Cards>
@@ -172,4 +192,3 @@ export function Dashboard({}){
         </Container>
     )
 }
-

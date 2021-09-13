@@ -20,8 +20,10 @@ import * as yup from "yup";
 import {useNavigation} from '@react-navigation/native'
 import { Header } from '../../components/Header';
 import { Repository, SelectRepository } from '../SelectRepository';
-import { options,categories } from '../../utils/options';
-
+import { options,categories, cloudbookPath, repositoriesImagesPath } from '../../utils/options';
+import * as ImagePicker from 'react-native-image-picker';
+import * as FS from 'react-native-fs';
+import uuid from 'react-native-uuid';
 
 export type NavigationProps = {
     navigate:(screen:string) => void;
@@ -39,6 +41,8 @@ const schema = yup.object().shape({
 
 export function AddRepository(){
     const navigation = useNavigation<NavigationProps>()
+    const [imageURI,setImageURI] = useState('');
+    const [imageSelected,setImageSelected] = useState(false);
 
     const {
         control,
@@ -49,18 +53,63 @@ export function AddRepository(){
     })
 
 
-    function handleSave(content:FormData){
-      
+    async function handleSave(content:FormData){
         
-        const repository={
-            image:'example.jpg',
-            name:content.repository
-        }
-        console.log(repository)
-        
-        navigation.navigate('Dashboard');
+        await createFolderRepository(String(content.repository))
 
     }
+
+    async function createFolderRepository(nameRepository:string){
+        const hash = String(uuid.v4());
+        const separator = "|"
+        const exists = await FS.exists(cloudbookPath+"/"+nameRepository);
+        if (!exists){
+          await FS.mkdir(cloudbookPath+"/"+nameRepository+separator+hash).then(async r=>{
+              await movePhotoToCloudbookFolder(hash);
+            navigation.navigate('Dashboard');
+          }).catch(err=>{
+              console.log(err)
+              return Alert.alert("Erro ao criar pasta")
+              
+          })
+        }else{
+            
+            return Alert.alert("Erro está pasta já existe")
+        }
+        
+        
+    }
+
+    async function movePhotoToCloudbookFolder(namePhoto:string){
+        await FS.moveFile(imageURI,repositoriesImagesPath+"/"+namePhoto+".jpg");
+    }
+
+    function handleGallery(){
+        const options:any = {
+            storageOptions: {
+              skipBackup: true,
+              path: 'images',
+            }
+        }
+
+        ImagePicker.launchImageLibrary(options, (response) => {
+            console.log('Response = ', response);
+      
+            if (response.didCancel) {
+              console.log('User cancelled image picker');
+            } else if (response.errorCode) {
+              console.log('ImagePicker Error: ', response.errorCode);
+            } else {
+              const source = { uri: response.assets };
+
+              setImageSelected(true);
+              setImageURI(response.assets![0].uri || '');
+            
+            }
+          });
+    }
+
+
     return(
        
 
@@ -70,11 +119,16 @@ export function AddRepository(){
             type='addContent'
         />
 
-            <ChangePhoto>
-                    <ImageContent source={{uri:'https://c4.wallpaperflare.com/wallpaper/991/886/526/naruto-deidara-naruto-hidan-naruto-itachi-uchiha-kakuzu-naruto-hd-wallpaper-preview.jpg'}}/>
-                    <CircleCamera>
-                        <TargetCamera name="camera"/>
-                    </CircleCamera>
+            <ChangePhoto onPress={handleGallery}>
+                    {imageSelected 
+                        ?<ImageContent  source={{uri:imageURI}}/>
+                        :<ImageContent style={{width:350}} source={require('../../assets/404_photo.png')}/>
+                    }
+                   {imageSelected &&
+                    <CircleCamera onPress={handleGallery}>
+                       <TargetCamera name="camera"/>
+                   </CircleCamera>
+                   } 
             </ChangePhoto>
 
             <InputForm 

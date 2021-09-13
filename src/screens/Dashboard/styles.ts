@@ -1,6 +1,6 @@
 
 import { FlatList } from 'react-native';
-import { BorderlessButton } from 'react-native-gesture-handler';
+import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 import { DataListProps } from '.';
@@ -24,6 +24,9 @@ export const Container = styled.View`
         font-size: ${RFValue(20)}px;
         color:${({theme})=>theme.colors.shape};
         font-family: ${({theme})=>theme.fonts.medium};
+    `
+    export const EmojiButton= styled(BorderlessButton)`
+        
     `
     export const Emoji= styled.Text`
         

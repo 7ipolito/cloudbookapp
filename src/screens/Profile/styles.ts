@@ -43,7 +43,7 @@ export const Form=styled.View`
     align-items: center;
     
 `
-export const ChangePhoto=styled.View`
+export const ChangePhoto=styled(RectButton)`
     
 `
 
@@ -58,7 +58,7 @@ export const CircleCamera=styled(RectButton)`
     width:${RFValue(50)}px;
     height:${RFValue(50)}px;
     border-radius: 40px;
-    background-color: ${({theme})=>theme.colors.primary};
+    background-color: ${({theme})=>theme.colors.input};
 
     align-items: center;
     justify-content: center;
@@ -70,6 +70,7 @@ export const CircleCamera=styled(RectButton)`
 
 export const TargetCamera=styled(Feather)`
     font-size: ${RFValue(20)}px;
+    color: ${({theme})=>theme.colors.primary};;
 `
 
 export const Footer = styled.View`
