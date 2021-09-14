@@ -18,7 +18,7 @@ export const ImageContent= styled.Image`
     height: ${RFValue(185)}px;
 `
 
-export const ChangePhoto=styled.View`
+export const ChangePhoto=styled(RectButton)`
     
 `
 

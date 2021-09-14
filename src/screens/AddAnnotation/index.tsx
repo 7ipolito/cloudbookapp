@@ -24,9 +24,6 @@ import { options,categories } from '../../utils/options';
 import TextArea from '../../components/TextArea';
 
 
-export type NavigationProps = {
-    navigate:(screen:string) => void;
- }
 
 interface FormData{
     subject:string;
@@ -38,8 +35,7 @@ const schema = yup.object().shape({
   });
   
 
-export function AddAnottation(){
-    const navigation = useNavigation<NavigationProps>()
+export function AddAnottation({navigation}:any){
 
     const[category,setCategory]=useState({
         key:'category',

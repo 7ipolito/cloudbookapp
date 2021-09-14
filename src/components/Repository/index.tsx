@@ -19,6 +19,7 @@ export interface RepositoryProps{
     image:string;
     number_subjects:number;
     date:string | undefined;
+    pathRepository:string;
 }
 
 interface Props extends RectButtonProps{

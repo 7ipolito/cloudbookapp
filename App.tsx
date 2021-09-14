@@ -16,6 +16,7 @@ import { AddImage } from './src/screens/AddImage';
 import { AppRoutes } from './src/routes/App.routes';
 import { NavigationContainer } from '@react-navigation/native';
 import { SignIn } from './src/screens/SignIn';
+import { PathProvider } from './src/hooks/usePath';
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -38,7 +39,9 @@ export default function App() {
   />
     <ThemeProvider theme={theme}>
       <NavigationContainer>
-        <AppRoutes/>
+        <PathProvider>
+          <AppRoutes/>
+        </PathProvider>
       </NavigationContainer>
 
     </ThemeProvider>

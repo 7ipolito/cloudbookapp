@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Forms/Input';
 import { InputForm } from '../../components/InputForm';
@@ -17,7 +17,12 @@ import * as yup from "yup";
 import {useNavigation} from '@react-navigation/native'
 import { Header } from '../../components/Header';
 import { Repository, SelectRepository } from '../SelectRepository';
-import { options,categories } from '../../utils/options';
+import { options,categories, cloudbookPath, subjectsImagesPath } from '../../utils/options';
+import * as ImagePicker from 'react-native-image-picker';
+import * as FS from 'react-native-fs';
+import uuid from 'react-native-uuid';
+import { Alert } from 'react-native';
+import { usePath } from '../../hooks/usePath';
 
 
 export interface Subject{
@@ -41,8 +46,12 @@ const schema = yup.object().shape({
   });
   
 
-export function AddSubject(){
-    const navigation = useNavigation<NavigationProps>()
+export function AddSubject({route, navigation}:any){
+
+    const [imageURI,setImageURI] = useState('');
+    const [imageSelected,setImageSelected] = useState(false);
+    const {path}= usePath();
+
 
     const {
         control,
@@ -53,17 +62,66 @@ export function AddSubject(){
     })
 
 
-    function handleSave(content:FormData){
-      
-        
-        const subject={
-            image:'example.jpg',
-            name:content.subject
-        }
-        console.log(subject)
-        
-        navigation.navigate('Subjects');
+    async function handleSave(content:FormData){
+        if(imageURI ===  '')
+            return Alert.alert('Selecione uma imagem primeiro')
+        await createFolderSubject(String(content.subject))
 
+    }
+
+    async function createFolderSubject(nameSubject:string){
+        const hash = String(uuid.v4());
+        const separator = "|";
+        //PENDING
+        const nameSubjectHashed=nameSubject+separator+hash;
+        const nameSubjectFormatted = nameSubjectHashed.substring(0,nameSubjectHashed.indexOf("|"));
+
+        const exists = await FS.exists(path+"/"+nameSubjectFormatted);
+        if (!exists){
+          await FS.mkdir(path+"/"+nameSubjectHashed).then(async r=>{
+              await movePhotoToSubjectsImagesFolder(hash);
+            navigation.navigate('Subjects');
+          }).catch(err=>{
+              console.log(err)
+              return Alert.alert("Erro ao criar disciplina")
+              
+          })
+        }else{
+            
+            return Alert.alert("Erro está pasta já existe")
+        }
+        
+        
+    }
+
+
+
+    function handleGallery(){
+        const options:any = {
+            storageOptions: {
+              skipBackup: true,
+              path: 'images',
+            }
+        }
+
+        ImagePicker.launchImageLibrary(options, (response) => {
+            console.log('Response = ', response);
+      
+            if (response.didCancel) {
+              console.log('User cancelled image picker');
+            } else if (response.errorCode) {
+              console.log('ImagePicker Error: ', response.errorCode);
+            } else {
+
+              setImageSelected(true);
+              setImageURI(response.assets![0].uri || '');
+            
+            }
+          });
+    }
+
+    async function movePhotoToSubjectsImagesFolder(namePhoto:string){
+        await FS.moveFile(imageURI,subjectsImagesPath+"/"+namePhoto+".jpg");
     }
     return(
        
@@ -74,11 +132,16 @@ export function AddSubject(){
             type='addContent'
         />
 
-            <ChangePhoto>
-                    <ImageContent source={{uri:'https://www.oficinadanet.com.br/imagens/post/28270/suits.jpg'}}/>
-                    <CircleCamera>
-                        <TargetCamera name="camera"/>
-                    </CircleCamera>
+            <ChangePhoto onPress={handleGallery}>
+                    {imageSelected 
+                        ?<ImageContent  source={{uri:imageURI}}/>
+                        :<ImageContent style={{width:350}} source={require('../../assets/404_photo.png')}/>
+                    }
+                   {imageSelected &&
+                    <CircleCamera onPress={handleGallery}>
+                       <TargetCamera name="camera"/>
+                   </CircleCamera>
+                   } 
             </ChangePhoto>
 
             <InputForm 

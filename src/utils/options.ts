@@ -27,6 +27,7 @@ export const emojis = [
   { key: '13', title: 'Estátua da Liberdade', emoji: '🗽' },
   { key: '14', title: 'Bandeira do Brasil', emoji: '🇧🇷' },
   { key: '15', title: 'Café', emoji: '☕️' },
+  { key: '16', title: 'Tridente Mitogia grega', emoji: '🔱' },
 
 ]
 

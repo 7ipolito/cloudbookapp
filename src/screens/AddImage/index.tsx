@@ -24,7 +24,7 @@ import { options,categories } from '../../utils/options';
 
 
 export type NavigationProps = {
-    navigate:(screen:string) => void;
+    navigate:(screen:string, options?:any) => void;
  }
 
 interface FormData{
@@ -37,8 +37,7 @@ const schema = yup.object().shape({
   });
   
 
-export function AddImage(){
-    const navigation = useNavigation<NavigationProps>()
+export function AddImage({navigation}:any){
 
     const[category,setCategory]=useState({
         key:'category',

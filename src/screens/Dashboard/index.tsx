@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation,  } from "@react-navigation/native";
 import React, { useCallback } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -11,9 +11,11 @@ import { FabButton } from "../../components/FabButton";
 import { Repository, RepositoryProps } from "../../components/Repository";
 import { cloudbookPath, options, repositoriesImagesPath } from "../../utils/options";
 import { NavigationProps } from "../AddImage";
-import { Container, NameUser, PhotoButton, Slider,Cards,Title, EmojiButton } from "./styles";
+import { Container, NameUser, PhotoButton, Slider,Cards,Title, EmojiButton, TextNotRepository, WhithoutRepositoryContent } from "./styles";
 import uuid from 'react-native-uuid';
+import { Entypo } from '@expo/vector-icons'; 
 
+import * as FS from 'react-native-fs';
 import{
     Header,
     Text,
@@ -23,16 +25,19 @@ import{
     RepositoryList
     
 } from './styles';
-import * as FS from 'react-native-fs';
+import { usePath } from "../../hooks/usePath";
+import theme from "../../global/theme";
+
 
 export interface DataListProps extends RepositoryProps{
     id: string;
 }
 
 
-export function Dashboard({}){
-    const navigation = useNavigation<NavigationProps>()
+export function Dashboard({navigation}:any){
+
     const [imageUser,setImageUser]=useState('');
+    const {setTitle,setPath,setImagePathTab}= usePath();
     const [nameUser,setNameUser]= useState('User');
     const [repositories,setRepositories]=useState<DataListProps[]>([])
     const [emoji,setEmoji]=useState({
@@ -59,8 +64,6 @@ export function Dashboard({}){
                 setEmoji(currentEmoji)
             }
             
- 
-            
         } catch (error) {
             console.log(error)
            return Alert.alert('Erro ao salvar')
@@ -85,20 +88,24 @@ export function Dashboard({}){
             navigation.navigate(nameScreen)    
     }
 
-    function handleGoSubjects(){
+    function handleGoSubjects(pathRepository:string,title:string,imageRepository:string){
+
+        setTitle(title)
+        setImagePathTab(imageRepository)
+        setPath(pathRepository)
         navigation.navigate('Subjects')
+          
     }
 
     async function listRepositories(){
         const folders:ReadDirItem[] = await FS.readDir(cloudbookPath)
-        console.log(folders)
+        
         const repositories:DataListProps[] =[]
         folders.map((folder=>{
-            const nameImage = folder.name.substring(folder.name.indexOf("|")+1);
-            const nameRepository = folder.name.substring(0,folder.name.indexOf("|"))
+
+            const nameImageFormatted = folder.name.substring(folder.name.indexOf("|")+1);
+            const nameRepositoryFormatted = folder.name.substring(0,folder.name.indexOf("|"))
             
-            console.log(nameImage)
-            console.log(nameRepository)
             if(folder.name!='images'){
                 repositories.push({
                     id:String(uuid.v4()),
@@ -107,19 +114,19 @@ export function Dashboard({}){
                         month: 'narrow',
                         year: 'numeric'
                       }).format(folder.mtime),
-                    image:"file://"+repositoriesImagesPath+"/"+nameImage+".jpg",
+                    image:"file://"+repositoriesImagesPath+"/"+nameImageFormatted+".jpg",
                     number_subjects:0,
-                    title:nameRepository
+                    title:nameRepositoryFormatted,
+                    pathRepository:folder.path
                 })
             }
             
         }))
 
         
-        setRepositories(repositories)
+        setRepositories(repositories);
+      
         
-      
-      
   }
 
 
@@ -171,18 +178,35 @@ export function Dashboard({}){
                     
                 </Slider>
             </Cards>
-            <Title>Repositórios</Title>
-            <Repositories>
 
-                <RepositoryList
-                    data={repositories}
-                    keyExtractor={item => item.id}
-                    renderItem={({item})=> <Repository onPress={handleGoSubjects} data={item}/>}
-                />
+            {repositories[0] &&(<Title>Repositórios</Title>)}
+            {repositories[0]?(
+                  <Repositories>
+
+                  <RepositoryList
+                      data={repositories}
+                      keyExtractor={item => item.id}
+                      renderItem={({item})=>
+                       <Repository 
+                          onPress={()=>
+                              handleGoSubjects(
+                                  item.pathRepository,
+                                  item.title,
+                                  item.image)}
+                              data={item}/>
+                          }
+                  />
+                  
+              
+                  
+              </Repositories>
+            ):(
+                <WhithoutRepositoryContent>
+                    <Entypo name="folder" size={45} color={theme.colors.primary} />
+                    <TextNotRepository>Não há repositórios</TextNotRepository>
+                </WhithoutRepositoryContent>
                 
-            
-                
-            </Repositories>
+            )}
             </ScrollView>
             <FabButton
                 icon='addfolder'

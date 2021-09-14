@@ -39,8 +39,8 @@ const schema = yup.object().shape({
   });
   
 
-export function AddRepository(){
-    const navigation = useNavigation<NavigationProps>()
+export function AddRepository({navigation}:any){
+    
     const [imageURI,setImageURI] = useState('');
     const [imageSelected,setImageSelected] = useState(false);
 
@@ -54,33 +54,41 @@ export function AddRepository(){
 
 
     async function handleSave(content:FormData){
-        
+        if(imageURI === ''){
+            return Alert.alert("Selecione uma imagem primeiro")
+        }
+            
         await createFolderRepository(String(content.repository))
 
     }
 
     async function createFolderRepository(nameRepository:string){
         const hash = String(uuid.v4());
-        const separator = "|"
-        const exists = await FS.exists(cloudbookPath+"/"+nameRepository);
+        const separator = "|";
+
+        //PENDING
+        const nameRepositoryHashed=nameRepository+separator+hash;
+        const nameRepositoryFormatted = nameRepositoryHashed.substring(0,nameRepositoryHashed.indexOf("|"));
+        
+        const exists = await FS.exists(cloudbookPath+"/"+nameRepositoryFormatted);
         if (!exists){
-          await FS.mkdir(cloudbookPath+"/"+nameRepository+separator+hash).then(async r=>{
-              await movePhotoToCloudbookFolder(hash);
+          await FS.mkdir(cloudbookPath+"/"+nameRepositoryHashed).then(async r=>{
+              await movePhotoToRepositoriesImagesFolder(hash);
             navigation.navigate('Dashboard');
           }).catch(err=>{
               console.log(err)
-              return Alert.alert("Erro ao criar pasta")
+              return Alert.alert("Erro ao criar repositório")
               
           })
         }else{
             
-            return Alert.alert("Erro está pasta já existe")
+            return Alert.alert("Erro este repositório já existe")
         }
         
         
     }
 
-    async function movePhotoToCloudbookFolder(namePhoto:string){
+    async function movePhotoToRepositoriesImagesFolder(namePhoto:string){
         await FS.moveFile(imageURI,repositoriesImagesPath+"/"+namePhoto+".jpg");
     }
 

@@ -17,6 +17,7 @@ export const Container = styled.View`
     
     flex-direction: row;
     justify-content: space-between;
+    
     `
     export const Text= styled.Text`
         width: ${RFValue(150)}px;
@@ -25,6 +26,22 @@ export const Container = styled.View`
         color:${({theme})=>theme.colors.shape};
         font-family: ${({theme})=>theme.fonts.medium};
     `
+    
+    export const WhithoutRepositoryContent= styled.View`
+        margin-top: 150px;
+        align-items: center;
+        justify-content: center;
+        
+    `
+    export const TextNotRepository=styled.Text`
+        color:${({theme})=>theme.colors.shape};
+        font-family:${({theme})=>theme.fonts.medium};
+        margin-top: 7px;
+        font-size: ${RFValue(24)}px;
+
+    `;
+
+
     export const EmojiButton= styled(BorderlessButton)`
         
     `
@@ -62,6 +79,7 @@ export const Container = styled.View`
         contentContainerStyle:{paddingHorizontal:10}
     })`
        flex-direction: row;
+       
     `
 
 export const RepositoryList = styled(

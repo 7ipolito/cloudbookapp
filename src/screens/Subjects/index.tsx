@@ -1,13 +1,19 @@
-import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import { useFocusEffect, useNavigation,  } from '@react-navigation/native';
+import React,{useCallback, useState} from 'react';
 import { ScrollView } from 'react-native';
+import { ReadDirItem } from 'react-native-fs';
 import { FabButton } from '../../components/FabButton';
 import { Header } from '../../components/Header';
 import { Repository } from '../../components/Repository';
 import { Subject, SubjectProps } from '../../components/Subject';
+import { cloudbookPath, subjectsImagesPath } from '../../utils/options';
 import { NavigationProps } from '../AddImage';
-
-import { Container,Title,Repositories,SubjectList } from './styles';
+import uuid from 'react-native-uuid';
+import * as FS from 'react-native-fs';
+import { Container,Title,SubjectsView,SubjectList, WhithoutSubjectContent, TextNotSubject } from './styles';
+import { usePath } from '../../hooks/usePath';
+import theme from '../../global/theme';
+import { Entypo } from '@expo/vector-icons'; 
 
 export interface DataListProps extends SubjectProps{
     id: string;
@@ -53,38 +59,85 @@ export const subjects:DataListProps[]=[
  
 ]
 
-export function Subjects(){
-    const navigation = useNavigation<NavigationProps>()
+export function Subjects({navigation}:any){
+    
+    
+    const {title,path,imageTab}= usePath();
+    
+    const [subjects,setSubjects]=useState<DataListProps[]>([])
 
+    
     function handleAddSubject(){
         navigation.navigate('AddSubject')
     }
     function handleGoContents(){
         navigation.navigate('Contents')
     }
+
+    async function listSubjects(){
+        const folders:ReadDirItem[] = await FS.readDir(path)
+        
+        const subjects:DataListProps[] = []
+        folders.map((folder=>{
+            const nameImageFormatted = folder.name.substring(folder.name.indexOf("|")+1);
+            const nameSubjectFormatted = folder.name.substring(0,folder.name.indexOf("|"))
+            
+            subjects.push({
+                id:String(uuid.v4()),
+                date:Intl.DateTimeFormat('pt-BR', {
+                    day: '2-digit',
+                    month: 'narrow',
+                    year: 'numeric'
+                  }).format(folder.mtime),
+                image:"file://"+subjectsImagesPath+"/"+nameImageFormatted+".jpg",
+                number_matter:0,
+                title:nameSubjectFormatted,
+                
+            })
+            
+        }))
+
+        setSubjects(subjects)
+
+      
+      }
+
+      useFocusEffect(useCallback(()=>{
+            listSubjects();
+      },[]))
     return(
         <Container>
             
             <Header
-                title="Repositório ISERJ"
-                image='https://static.wixstatic.com/media/8c7e96_5af7935a27e54268ba51518d64c4d732~mv2.jpg/v1/fill/w_280,h_331,al_c,q_80,usm_0.66_1.00_0.01/f5.jpg'
+                title={title}
+                image={imageTab}
                 type='listThings'
                 
             />
             <ScrollView>
 
-            <Title>Disciplinas</Title>
-            <Repositories>
+            {subjects[0] &&<Title>Disciplinas</Title>}
+            {
+                subjects[0] ?(
+                <SubjectsView>
 
-            <SubjectList
-                data={subjects}
-                keyExtractor={item => item.id}
-                renderItem={({item})=> <Subject onPress={handleGoContents} data={item}/>}
-            />
+                    <SubjectList
+                        data={subjects}
+                        keyExtractor={item => item.id}
+                        renderItem={({item})=> <Subject onPress={handleGoContents} data={item}/>}
+                    />
 
 
 
-            </Repositories>
+                </SubjectsView>
+                ):(
+                    <WhithoutSubjectContent>
+                    <Entypo name="folder-images" size={45} color={theme.colors.primary} />
+                    <TextNotSubject>Não há disciplinas</TextNotSubject>
+                     </WhithoutSubjectContent>
+                )
+            }
+            
             </ScrollView>
             <FabButton
                 icon='page-add'

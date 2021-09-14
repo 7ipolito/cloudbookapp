@@ -51,8 +51,7 @@ export const contents:DataListProps[]=[
  
 ]
 
-export function Contents(){
-    const navigation = useNavigation<NavigationProps>()
+export function Contents({navigation}:any){
 
     function handleAddSubject(){
         navigation.navigate('AddSubject')
