@@ -37,7 +37,10 @@ export interface DataListProps extends RepositoryProps{
 export function Dashboard({navigation}:any){
 
     const [imageUser,setImageUser]=useState('');
+
+    //Utilizando Hook
     const {setTitle,setPath,setImagePathTab}= usePath();
+
     const [nameUser,setNameUser]= useState('User');
     const [repositories,setRepositories]=useState<DataListProps[]>([])
     const [emoji,setEmoji]=useState({
@@ -101,10 +104,13 @@ export function Dashboard({navigation}:any){
         const folders:ReadDirItem[] = await FS.readDir(cloudbookPath)
         
         const repositories:DataListProps[] =[]
-        folders.map((folder=>{
+        folders.map((async folder=>{
 
             const nameImageFormatted = folder.name.substring(folder.name.indexOf("|")+1);
             const nameRepositoryFormatted = folder.name.substring(0,folder.name.indexOf("|"))
+
+            const dirItens = await FS.readDir(folder.path)
+            const countSubjects=dirItens.length;
             
             if(folder.name!='images'){
                 repositories.push({
@@ -115,7 +121,7 @@ export function Dashboard({navigation}:any){
                         year: 'numeric'
                       }).format(folder.mtime),
                     image:"file://"+repositoriesImagesPath+"/"+nameImageFormatted+".jpg",
-                    number_subjects:0,
+                    number_subjects:countSubjects,
                     title:nameRepositoryFormatted,
                     pathRepository:folder.path
                 })

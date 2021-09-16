@@ -37,7 +37,10 @@ export function Repository({
                 <Title>{data.title}</Title>
                 <SubjectContent>
                     <SubjectIcon name='subject'/>
-                    <SubjectCount>{data.number_subjects} disciplinas</SubjectCount>
+                    {data.number_subjects===0
+                    ?<SubjectCount>Sem disciplinas</SubjectCount>
+                    :<SubjectCount>{data.number_subjects} disciplinas</SubjectCount>
+                    }
                 </SubjectContent>
                 <DateContent>
                     <DateIcon name='clock'/>

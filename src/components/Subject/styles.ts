@@ -7,7 +7,7 @@ export const Container = styled(RectButton)`
 
        background-color: ${({theme})=> theme.colors.title};
         
-       width: ${RFValue(360)}px;
+        width: ${RFValue(340)}px;
         height:${RFValue(110)}px;
         flex-direction: row;
         

@@ -13,8 +13,8 @@ export const Container=styled(RectButton)`
     align-items: center;
     justify-content: center;
     position: absolute;
-    margin-left:${RFValue(300)}px;
-    margin-top: ${RFValue(720)}px;
+    margin-left:${RFValue(270)}px;
+    margin-top: ${RFValue(660)}px;
     
 `
 

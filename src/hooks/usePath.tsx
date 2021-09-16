@@ -1,5 +1,3 @@
-
-import { useNavigation } from '@react-navigation/core';
 import React,{createContext, ReactNode, useContext, useEffect, useState} from 'react';
 
 interface IPathContextData{
@@ -19,12 +17,10 @@ interface PathProviderProps{
 export const PathContext = createContext({} as IPathContextData)
 
 function PathProvider({children}:PathProviderProps){
+
     const[title,setTitle]=useState('')
     const[path,setPath]=useState('')
     const[imagePathTab,setImagePathTab]=useState('')
-
-  
-    
 
     return(
         <PathContext.Provider value={{
@@ -34,7 +30,6 @@ function PathProvider({children}:PathProviderProps){
             setTitle,
             setImagePathTab,
             setPath
-            
             }}>
             {children}
         </PathContext.Provider>
