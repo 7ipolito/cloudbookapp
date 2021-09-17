@@ -1,29 +1,23 @@
 import React,{useState} from 'react';
 import { Button } from '../../components/Button';
-import { Input } from '../../components/Forms/Input';
 import { InputForm } from '../../components/InputForm';
-import { SelectButton } from '../../components/SelectButton';
-import { IconExit } from '../Profile/styles';
 import { Container,
     ImageContent,
     ChangePhoto, 
     CircleCamera,
     TargetCamera, 
     Footer,
-    BackButton } from './styles';
+} from './styles';
 import {useForm} from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import {useNavigation} from '@react-navigation/native'
 import { Header } from '../../components/Header';
-import { Repository, SelectRepository } from '../SelectRepository';
-import { options,categories, cloudbookPath, subjectsImagesPath } from '../../utils/options';
 import * as ImagePicker from 'react-native-image-picker';
 import * as FS from 'react-native-fs';
 import uuid from 'react-native-uuid';
 import { Alert } from 'react-native';
 import { usePath } from '../../hooks/usePath';
-
+import { subjectsImagesPath } from '../../utils/options';
 
 export interface Subject{
     id:string;
@@ -31,10 +25,6 @@ export interface Subject{
     image:string;
     
 }
-
-export type NavigationProps = {
-    navigate:(screen:string) => void;
- }
 
 interface FormData{
     
@@ -50,7 +40,7 @@ export function AddSubject({route, navigation}:any){
 
     const [imageURI,setImageURI] = useState('');
     const [imageSelected,setImageSelected] = useState(false);
-    const {path}= usePath();
+    const {pathRepository}= usePath();
 
 
     const {
@@ -76,9 +66,9 @@ export function AddSubject({route, navigation}:any){
         const nameSubjectHashed=nameSubject+separator+hash;
         const nameSubjectFormatted = nameSubjectHashed.substring(0,nameSubjectHashed.indexOf("|"));
 
-        const exists = await FS.exists(path+"/"+nameSubjectFormatted);
+        const exists = await FS.exists(pathRepository+"/"+nameSubjectFormatted);
         if (!exists){
-          await FS.mkdir(path+"/"+nameSubjectHashed).then(async r=>{
+          await FS.mkdir(pathRepository+"/"+nameSubjectHashed).then(async r=>{
               await movePhotoToSubjectsImagesFolder(hash);
             navigation.navigate('Subjects');
           }).catch(err=>{
@@ -148,6 +138,7 @@ export function AddSubject({route, navigation}:any){
                 name='subject'
                 control={control}
                 icon='pencil'
+                maxLength={18}
                 autoCapitalize='sentences'
                 error={errors.subject && errors.subject.message}
                 placeholder='Nome da disciplina'

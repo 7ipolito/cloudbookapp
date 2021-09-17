@@ -15,17 +15,6 @@ export const Button = styled(RectButton)`
 
 `;
 
-export const ImageContainer = styled.View`
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-
-    padding: ${RFValue(16)}px;
-
-    border-color: ${({theme})=> theme.colors.background};
-    border-right-width: 1px;
-`;
-
 export const Text = styled.Text`
     flex: 1;
     text-align: center;

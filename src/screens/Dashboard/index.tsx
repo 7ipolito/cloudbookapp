@@ -1,17 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useFocusEffect, useNavigation,  } from "@react-navigation/native";
-import React, { useCallback } from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { Alert, LogBox } from "react-native";
+import { useFocusEffect} from "@react-navigation/native";
+import React, { useCallback,useState } from "react";
+import { Alert, LogBox,ActivityIndicator } from "react-native";
 import { ReadDirItem } from "react-native-fs";
-import { FlatList, ScrollView } from "react-native-gesture-handler";
-import { Card } from "../../components/Card";
+import { ScrollView } from "react-native-gesture-handler";
 import { FabButton } from "../../components/FabButton";
 import { Repository, RepositoryProps } from "../../components/Repository";
 import { cloudbookPath, options, repositoriesImagesPath } from "../../utils/options";
-import { NavigationProps } from "../AddImage";
-import { Container, NameUser, PhotoButton, Slider,Cards,Title, EmojiButton, TextNotRepository, WhithoutRepositoryContent } from "./styles";
+import { Container, NameUser, PhotoButton, Slider,Cards,Title,LoadContainer, EmojiButton, TextNotRepository, WhithoutRepositoryContent } from "./styles";
 import uuid from 'react-native-uuid';
 import { Entypo } from '@expo/vector-icons'; 
 
@@ -27,19 +23,19 @@ import{
 } from './styles';
 import { usePath } from "../../hooks/usePath";
 import theme from "../../global/theme";
+import { Card } from "../../components/Card";
 
 
 export interface DataListProps extends RepositoryProps{
     id: string;
 }
 
-
 export function Dashboard({navigation}:any){
 
     const [imageUser,setImageUser]=useState('');
 
     //Utilizando Hook
-    const {setTitle,setPath,setImagePathTab}= usePath();
+    const {setTitleRepository,setPathRepository,setImagePathTabRepository}= usePath();
 
     const [nameUser,setNameUser]= useState('User');
     const [repositories,setRepositories]=useState<DataListProps[]>([])
@@ -48,6 +44,7 @@ export function Dashboard({navigation}:any){
         title:'Bandeira do Brasil',
         emoji:'🇧🇷'
     })
+    const [isLoading,setIsLoading]=useState(true);
    
 
     async function getData(){
@@ -66,10 +63,13 @@ export function Dashboard({navigation}:any){
             if(currentEmoji.emoji){
                 setEmoji(currentEmoji)
             }
+            setIsLoading(false)
             
         } catch (error) {
             console.log(error)
-           return Alert.alert('Erro ao salvar')
+            setIsLoading(false)
+           return Alert.alert('Erro reinicie a aplicação')
+           
         }
      }
 
@@ -86,17 +86,18 @@ export function Dashboard({navigation}:any){
     }
 
     function handleNavigate(nameScreen:string){
-            if(!nameScreen)
-                return Alert.alert("Funcionalidade não implementada")
-            navigation.navigate(nameScreen)    
+            
+        return Alert.alert("Funcionalidade não implementada")
+            
     }
 
     function handleGoSubjects(pathRepository:string,title:string,imageRepository:string){
 
-        setTitle(title)
-        setImagePathTab(imageRepository)
-        setPath(pathRepository)
+        setTitleRepository(title)
+        setImagePathTabRepository(imageRepository)
+        setPathRepository(pathRepository)
         navigation.navigate('Subjects')
+        
           
     }
 
@@ -125,14 +126,14 @@ export function Dashboard({navigation}:any){
                     title:nameRepositoryFormatted,
                     pathRepository:folder.path
                 })
+                setRepositories(repositories);
             }
             
         }))
 
         
-        setRepositories(repositories);
-      
-        
+        setIsLoading(false)
+
   }
 
 
@@ -145,75 +146,88 @@ export function Dashboard({navigation}:any){
 
     return(
         <Container>
-            <ScrollView>
-            <Header>
-                <Text>
-                    Bem vindo(a),{'\n'}
-                    <NameUser>
-                    {nameUser}
-                    </NameUser>
+            {isLoading==false?(
+                <ScrollView>
+                <Header>
+                    <Text>
+                        Bem vindo(a),{'\n'}
+                        <NameUser>
+                        {nameUser}
+                        </NameUser>
+                        
+                    </Text>
+                    <EmojiButton>
+                        <Emoji>
+                        {emoji.emoji}
+                        </Emoji>
+                    </EmojiButton>
                     
-                </Text>
-                <EmojiButton>
-                    <Emoji>
-                    {emoji.emoji}
-                    </Emoji>
-                </EmojiButton>
-                
-                <PhotoButton 
-                    onPress={handleChangeProfile}
-                >
-                {imageUser=== '' 
-                    ?<Photo source={require('../../assets/404_profile.png')}/>
-                    :<Photo source={{uri:imageUser}}/>
-                }
-                </PhotoButton>
-            </Header>
-            <Cards>
-                <Slider>
-                    {options.map(option=>(
-                        <Card 
-                            onPress={()=>handleNavigate(option.screen)}
-                            key={option.key}
-                            title={option.title}
-                            icon={option.icon}
-                        />
-
-                    ))}
-                    
-                    
-                </Slider>
-            </Cards>
-
-            {repositories[0] &&(<Title>Repositórios</Title>)}
-            {repositories[0]?(
-                  <Repositories>
-
-                  <RepositoryList
-                      data={repositories}
-                      keyExtractor={item => item.id}
-                      renderItem={({item})=>
-                       <Repository 
-                          onPress={()=>
-                              handleGoSubjects(
-                                  item.pathRepository,
-                                  item.title,
-                                  item.image)}
-                              data={item}/>
-                          }
-                  />
+                    <PhotoButton 
+                        onPress={handleChangeProfile}
+                    >
+                    {imageUser=== '' 
+                        ?<Photo source={require('../../assets/404_profile.png')}/>
+                        :<Photo source={{uri:imageUser}}/>
+                    }
+                    </PhotoButton>
+                </Header>
+                <Cards>
+                    <Slider>
+                        {options.map(option=>(
+                            <Card 
+                                onPress={()=>handleNavigate(option.screen)}
+                                key={option.key}
+                                title={option.title}
+                                icon={option.icon}
+                            />
+    
+                        ))}
+                        
+                        
+                    </Slider>
+                </Cards>
+    
+                {repositories[0] &&(<Title>Repositórios</Title>)}
+                {repositories[0]?(
+                      <Repositories>
+    
+                      <RepositoryList
+                          data={repositories}
+                          keyExtractor={item => item.id}
+                          
+                          renderItem={({item})=>
+                           <Repository 
+                              onPress={()=>
+                                  handleGoSubjects(
+                                      item.pathRepository,
+                                      item.title,
+                                      item.image)}
+                                  data={item}/>
+                              }
+                      />
+                      
                   
-              
-                  
-              </Repositories>
+                      
+                  </Repositories>
+                ):(
+                    <WhithoutRepositoryContent>
+                        <Entypo name="folder" size={45} color={theme.colors.primary} />
+                        <TextNotRepository>Não há repositórios</TextNotRepository>
+                    </WhithoutRepositoryContent>
+                    
+                )}
+                </ScrollView>
             ):(
-                <WhithoutRepositoryContent>
-                    <Entypo name="folder" size={45} color={theme.colors.primary} />
-                    <TextNotRepository>Não há repositórios</TextNotRepository>
-                </WhithoutRepositoryContent>
-                
+                <LoadContainer>
+                    <ActivityIndicator
+                        
+                        size="large"
+                        color={theme.colors.shape}
+                        
+                    />
+                </LoadContainer>
             )}
-            </ScrollView>
+            
             <FabButton
                 icon='addfolder'
                 type='addRepository'

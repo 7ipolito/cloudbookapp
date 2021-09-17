@@ -7,16 +7,10 @@ export const Container=styled.View`
     height: ${RFValue(76)}px;
     margin-top: 46px;
     
-    
     flex-direction: row;
-    
     justify-content:space-between;  
-
     align-items: center;
     margin-bottom: 14px;
-
-    
-    
     
 `
 export const Title=styled.Text`
@@ -32,18 +26,6 @@ export const IconBack=styled(Ionicons)`
     padding:0 16px;
     
 `
-export const ButtonIcon=styled.View`
- background-color: green;
-    
-`
-
-export const IconScreen=styled.Image`
-   width: ${RFValue(50)}px;
-   height: ${RFValue(50)}px;
-    
-   background-color: red;
-    
-`
 export const BackButton=styled(BorderlessButton)`
     
 `
@@ -52,14 +34,11 @@ export const ImageButton=styled(RectButton)`
 `
 
 export const ImageHeader= styled.Image`
-    width: ${RFValue(56)}px;
+   width: ${RFValue(56)}px;
    height: ${RFValue(56)}px;
-   margin-top: 8px;
-   
-   
+   margin-top: 8px;   
    margin-right: 10px;
    border-radius: 40px;
-    
    
 `
 

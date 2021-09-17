@@ -12,7 +12,7 @@ import theme from './src/global/theme';
 import { Dashboard } from './src/screens/Dashboard';
 import { Profile } from './src/screens/Profile';
 import { SelectEmoji } from './src/screens/SelectEmoji';
-import { AddImage } from './src/screens/AddImage';
+import { AddImage } from './src/screens/Shortcurts/AddImage';
 import { AppRoutes } from './src/routes/App.routes';
 import { NavigationContainer } from '@react-navigation/native';
 import { SignIn } from './src/screens/SignIn';
@@ -36,6 +36,7 @@ export default function App() {
     barStyle="light-content"
     backgroundColor="#222222"
     translucent
+    
   />
     <ThemeProvider theme={theme}>
       <NavigationContainer>

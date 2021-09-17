@@ -1,29 +1,37 @@
 import React, { useCallback, useState } from 'react';
-import { ChangePhoto, CircleCamera, Container, Footer, IconBack, IconExit } from './styles';
+
 import{
     Header,
     Title,
     Form,
     Photo,
     TargetCamera,
-} from './styles'
+    BackButton,
+    ChangePhoto,
+    CircleCamera,
+    Container,
+    Footer, 
+    IconBack,
+    IconExit, 
+    LoadContainer
+} from './styles';
+
 import { Input } from '../../components/Forms/Input';
 import { SelectButton } from '../../components/SelectButton';
-import { Alert, Modal } from 'react-native';
+import { ActivityIndicator, Alert, Modal } from 'react-native';
 import { SelectEmoji } from '../SelectEmoji';
 import { Button } from '../../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { NavigationProps } from '../AddImage';
-import { useEffect } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import * as ImagePicker from 'react-native-image-picker';
-export function Profile(){
+import theme from '../../global/theme';
+
+export function Profile({navigation}:any){
     const [emoji,setEmoji]=useState({
         key: '14',
         title:'Bandeira do Brasil',
         emoji:'🇧🇷'
-    })
-    const navigation = useNavigation<NavigationProps>()
+    })    
 
     const[nameUser,setNameUser]=useState('User')
     const[ImageUser,setImageUser]=useState('');
@@ -31,6 +39,7 @@ export function Profile(){
     const[imageSelected,setImageSelected]=useState(false);
 
     const [emojiModalOpen,setEmojiModalOpen]=useState(false);
+    const [isLoading,setIsLoading]=useState(true);
 
 
     function handleCloseSelectEmojiModal(){
@@ -61,6 +70,10 @@ export function Profile(){
             
             }
           });
+    }
+
+    function handleGoBack(){
+        navigation.goBack();
     }
 
     async function handleSave(){
@@ -99,15 +112,18 @@ export function Profile(){
             }
             
             setNameUser(nameUser || 'User')
+            
 
             if(currentEmoji.emoji){
                 setEmoji(currentEmoji)
             }
            
-            
+            setIsLoading(false);
         } catch (error) {
             console.log(error)
+            setIsLoading(false);
            return Alert.alert('Erro ao salvar')
+           
         }
      }
 
@@ -117,8 +133,12 @@ export function Profile(){
 
     return(
         <Container>
+            {isLoading==false ?(
+                <>
             <Header>
+            <BackButton onPress={handleGoBack}>
                 <IconBack name='md-arrow-back'/>
+            </BackButton>
                 <Title>Meu Perfil</Title>
                 <IconExit name='power'/>
             </Header>
@@ -141,6 +161,7 @@ export function Profile(){
                 <Input
                     icon='person-outline' 
                     value={nameUser}
+                    maxLength={15}
                     onChangeText={text=>setNameUser(text)}
                     error={errorInput===""?null:errorInput}
                  />
@@ -150,7 +171,6 @@ export function Profile(){
                     emoji={emoji.emoji}
                     onPress={handleOpenSelectEmojiModal}
                 />
-
                 
             </Form>
 
@@ -169,6 +189,16 @@ export function Profile(){
                         closeSelectEmoji={handleCloseSelectEmojiModal}
             />
              </Modal>
+             </>
+            ):(
+                <LoadContainer>
+                      <ActivityIndicator
+                        size="large"
+                        color={theme.colors.shape}
+                      />
+                </LoadContainer>
+            )}
+            
         </Container>
     )
 }

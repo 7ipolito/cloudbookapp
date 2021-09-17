@@ -1,35 +1,44 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Dashboard } from '../screens/Dashboard';
-import { AddImage } from '../screens/AddImage';
+import { AddImage } from '../screens/Shortcurts/AddImage';
 import { useTheme } from 'styled-components';
 import { Profile } from '../screens/Profile';
-import { AddAnottation } from '../screens/AddAnnotation';
+import { AddAnottation } from '../screens/Shortcurts/AddAnnotation';
 import { AddRepository } from '../screens/AddRepository';
 import { Subjects } from '../screens/Subjects';
 import { AddSubject } from '../screens/AddSubject';
 import { Contents } from '../screens/Contents';
 import { SignIn } from '../screens/SignIn';
+import { AddImageInContent } from '../screens/AddImageInContent';
+import { AddAnnotationInContent } from '../screens/AddAnnotationInContent';
+import { AnimatePresence } from 'framer-motion';
 
 const {Navigator, Screen}= createNativeStackNavigator();
 
 export function AppRoutes(){
     const theme = useTheme();
     return(
+        <AnimatePresence exitBeforeEnter>
         <Navigator
              screenOptions={{
-            headerShown: false,
+                headerShown: false,
+                orientation: 'portrait',
+                
+
              }}
         >
             <Screen
                 name='SignIn'
                 component={SignIn}
             />
-
+             
             <Screen
                 name='Dashboard'
                 component={Dashboard}
+                
             />
+            
 
             <Screen
                 name='Subjects'
@@ -52,6 +61,11 @@ export function AppRoutes(){
             />
 
             <Screen
+                name='AddImageInContent'
+                component={AddImageInContent}
+            />
+
+            <Screen
                 name='AddRepository'
                 component={AddRepository}
             />
@@ -67,7 +81,13 @@ export function AppRoutes(){
                 component={AddAnottation}
             />
 
+            <Screen
+                name='AddAnnotationInContent'
+                component={AddAnnotationInContent}
+            />
+
           
         </Navigator>
+        </AnimatePresence>
     )
 }

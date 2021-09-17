@@ -1,10 +1,5 @@
-import React,{useContext,useState,useEffect} from 'react';
+import React from 'react';
 import LogoSvg from '../../assets/logo.svg';
-import AppleSvg from '../../assets/apple.svg';
-import RocketSvg from '../../assets/rocket.svg';
-
-
-
 import { RFValue } from 'react-native-responsive-fontsize';
 import { Container,
         Header,
@@ -12,14 +7,11 @@ import { Container,
         Title,
         SignInTitle,
         Footer,
-        FooterWrapper } from './styles';
+        FooterWrapper 
+} from './styles';
 import { SignInSocialButton } from '../../components/SignInSocialButton';
-import * as FileSystem from 'expo-file-system';
-
-import { StorageAccessFramework,  } from 'expo-file-system';
-
 import * as FS from 'react-native-fs';
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { Alert, PermissionsAndroid } from 'react-native';
 import { cloudbookPath, imagesPath, repositoriesImagesPath, subjectsImagesPath } from '../../utils/options';
 
@@ -147,8 +139,8 @@ export function SignIn({}){
                 </TitleWrapper>
 
                 <SignInTitle>
-                    Faça seu login com {'\n'}
-                    uma das contas abaixo
+                    Inicie a imersão{'\n'}
+                    clicando no botão abaixo
                 </SignInTitle>
             </Header>
 
@@ -157,7 +149,6 @@ export function SignIn({}){
 
                 <SignInSocialButton
                     title="Iniciar imersão"
-                    svg={RocketSvg}
                     onPress={handleStart}
                 />
                   

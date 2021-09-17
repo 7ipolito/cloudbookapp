@@ -2,12 +2,11 @@ import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
 import {Ionicons} from '@expo/vector-icons'
 import { Feather } from '@expo/vector-icons'; 
-import { RectButton } from "react-native-gesture-handler";
+import { BorderlessButton, RectButton } from "react-native-gesture-handler";
 
 export const Container= styled.View`
     flex: 1;
     background-color: ${({theme})=>theme.colors.background};
-
 `
 
 export const Header=styled.View`
@@ -76,5 +75,13 @@ export const TargetCamera=styled(Feather)`
 export const Footer = styled.View`
     align-items: center;
     margin-top: ${RFValue(190)}px;
+    
+`
+export const LoadContainer = styled.View`
+    flex:1%;
+    justify-content: center;
+    align-items: center;
+`
+export const BackButton=styled(BorderlessButton)`
     
 `

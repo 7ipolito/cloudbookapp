@@ -1,26 +1,21 @@
 import React from 'react';
 import { Button } from '../../components/Button';
-import { Input } from '../../components/Forms/Input';
 import { InputForm } from '../../components/InputForm';
-import { SelectButton } from '../../components/SelectButton';
-import { IconExit } from '../Profile/styles';
 import { Container,
     ImageContent,
     ChangePhoto, 
     CircleCamera,
     TargetCamera, 
     Footer,
-    BackButton } from './styles';
+} from './styles';
 import {useForm} from 'react-hook-form'
 import { useState } from 'react';
-import { Alert, Modal } from 'react-native';
-import { Category, SelectCategory } from '../SelectCategory';
+import { Alert } from 'react-native';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import {useNavigation} from '@react-navigation/native'
 import { Header } from '../../components/Header';
-import { Repository, SelectRepository } from '../SelectRepository';
-import { options,categories, cloudbookPath, repositoriesImagesPath } from '../../utils/options';
+import { Repository } from '../SelectRepository';
+import { cloudbookPath, repositoriesImagesPath } from '../../utils/options';
 import * as ImagePicker from 'react-native-image-picker';
 import * as FS from 'react-native-fs';
 import uuid from 'react-native-uuid';
@@ -59,7 +54,7 @@ export function AddRepository({navigation}:any){
         }
             
         await createFolderRepository(String(content.repository))
-
+        
     }
 
     async function createFolderRepository(nameRepository:string){
@@ -108,7 +103,6 @@ export function AddRepository({navigation}:any){
             } else if (response.errorCode) {
               console.log('ImagePicker Error: ', response.errorCode);
             } else {
-              const source = { uri: response.assets };
 
               setImageSelected(true);
               setImageURI(response.assets![0].uri || '');
@@ -119,7 +113,6 @@ export function AddRepository({navigation}:any){
 
 
     return(
-       
 
         <Container>
          <Header
@@ -143,13 +136,12 @@ export function AddRepository({navigation}:any){
                 name='repository'
                 control={control}
                 icon='pencil'
+                maxLength={18}
                 autoCapitalize='sentences'
                 error={errors.repository && errors.repository.message}
                 placeholder='Nome do repositório'
                 placeholderTextColor='#666360'
             />
-
-           
 
             <Footer>
                 <Button 
@@ -157,8 +149,6 @@ export function AddRepository({navigation}:any){
                     onPress={handleSubmit(handleSave)}
                  />
             </Footer>
-
-          
             
         </Container>
     )

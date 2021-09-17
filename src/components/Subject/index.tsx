@@ -19,6 +19,7 @@ export interface SubjectProps{
     image:string;
     number_matter:number;
     date:string;
+    path:string;
 }
 
 interface Props extends RectButtonProps{
@@ -36,7 +37,10 @@ export function Subject({
                 <Title>{data.title}</Title>
                 <SubjectContent>
                     <SubjectIcon name='subject'/>
-                    <SubjectCount>{data.number_matter} conteúdos</SubjectCount>
+                    {data.number_matter===0
+                    ?<SubjectCount>Sem conteúdos</SubjectCount>
+                    :<SubjectCount>{data.number_matter} conteúdos</SubjectCount>
+                    }
                 </SubjectContent>
                 <DateContent>
                     <DateIcon name='clock'/>

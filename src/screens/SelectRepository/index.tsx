@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { Button } from '../../components/Button';
 import { categories, emojis } from '../../utils/options';
-import { repositories } from '../Dashboard';
+
 import { Container, Footer, Header, Icon, Name, Repository, Separator, Title } from './styles';
 
 export interface Repository{
@@ -43,7 +43,7 @@ export function SelectRepository({
             </Header>
 
             <FlatList
-            data={repositories}
+            data={[{}]}
             style={{flex:1,width:'100%'}}
             keyExtractor={(item)=>item.id}
             renderItem={({item})=>(

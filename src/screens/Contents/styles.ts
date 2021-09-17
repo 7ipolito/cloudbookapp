@@ -18,11 +18,11 @@ export const Header= styled.View`
 `
 
 export const Title= styled.Text`
-font-family: ${({theme})=>theme.fonts.bold};
-color:${({theme})=>theme.colors.shape};
-font-size: ${RFValue(25)}px;
+    font-family: ${({theme})=>theme.fonts.bold};
+    color:${({theme})=>theme.colors.shape};
+    font-size: ${RFValue(25)}px;
 
-padding: 14px 24px;
+    padding: 14px 24px;
 
 `
 
@@ -32,6 +32,22 @@ export const ContentList = styled(
     showsVerticalScrollIndicator: false,
     
   })``;
-    export const Repositories= styled.View`
-        align-items: center;
-    `
+
+  export const TextNotContent=styled.Text`
+    color:${({theme})=>theme.colors.shape};
+    font-family:${({theme})=>theme.fonts.medium};
+    margin-top: 7px;
+    font-size: ${RFValue(24)}px;
+
+`;
+
+export const WhithoutContent= styled.View`
+    margin-top: 220px;
+    align-items: center;
+    justify-content: center;
+
+`;
+
+export const ContentsView= styled.View`
+    align-items: center;
+`;
