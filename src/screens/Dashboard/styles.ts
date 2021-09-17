@@ -65,6 +65,7 @@ export const Container = styled.View`
 
     export const NameUser= styled.Text`
         font-family: ${({theme})=>theme.fonts.bold};
+        font-size: 19px;
         color:${({theme})=>theme.colors.primary};
         
 

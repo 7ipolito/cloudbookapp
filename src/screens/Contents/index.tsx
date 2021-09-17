@@ -1,90 +1,189 @@
-import { useNavigation } from '@react-navigation/native';
-import React from 'react';
-import { ScrollView } from 'react-native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import React, { useCallback, useState } from 'react';
+import { Alert, ScrollView } from 'react-native';
+import { ReadDirItem } from 'react-native-fs';
 import { Content, ContentProps } from '../../components/Content';
 import { FabButton } from '../../components/FabButton';
 import { Header } from '../../components/Header';
 import { Repository } from '../../components/Repository';
 import { Subject, SubjectProps } from '../../components/Subject';
-import { NavigationProps } from '../AddImage';
+import { NavigationProps } from '../Shortcurts/AddImage';
+import * as FS from 'react-native-fs';
+import { Container,Title,ContentsView,ContentList, WhithoutContent, TextNotContent } from './styles';
+import uuid from 'react-native-uuid';
+import { usePath } from '../../hooks/usePath';
+import theme from '../../global/theme';
+import { FontAwesome } from '@expo/vector-icons'; 
+import ImageView from "react-native-image-viewing";
 
-import { Container,Title,Repositories,ContentList } from './styles';
 
 export interface DataListProps extends ContentProps{
     id: string;
 }
 
-
-export const contents:DataListProps[]=[
-    {
-        id:'1',
-        title:'Hipólito(Filho De Teseu)',
-        type:'photo',
-        image:'https://upload.wikimedia.org/wikipedia/commons/0/0f/Hippolytus_Sir_Lawrence_Alma_Tadema.jpg',
-        subject:'Mitologia Grega',
-        date:'30/04/2021',
-    },
-    {
-        id:'2',
-        title:'Quem foi Hipólito?',
-        type:'annotation',
-        text:'Hipólito (em grego: Ἱππόλυτος; "libertador dos cavalos"[1]), na mitologia grega, é o filho de Teseu e de Hipólita, rainha das amazonas, que herdou da mãe o gosto da caça e dos exercícios violentos. Adorava Artemis e menosprezava Afrodite.',
-        subject:'Mitologia Grega',
-        date:'30/04/2021',
-    },
-    {
-        id:'3',
-        title:'Spider Man',
-        type:'photo',
-        image:'https://i.pinimg.com/originals/bf/82/f6/bf82f6956a32819af48c2572243e8286.jpg',
-        subject:'Wallpapers Apple',
-        date:'30/04/2021',
-    },
-    {
-        id:'4',
-        title:'Caveira Estilosa',
-        type:'photo',
-        image:'https://images6.alphacoders.com/106/1069078.jpg',
-        subject:"Wallpapers Apple",
-        date:'30/04/2021',
-    },
- 
-]
+interface ImageViewerProps{
+    uri:string;
+}
 
 export function Contents({navigation}:any){
 
-    function handleAddSubject(){
-        navigation.navigate('AddSubject')
+    const {pathSubject,imageTabSubject,titleSubject}= usePath();
+    const [contents,setContents]=useState<DataListProps[]>([]);
+
+    const[openGallery,setOpenGallery]=useState(false);
+    const [imageSelectedURI,setImageSelectedURI]=useState<ImageViewerProps[]>([]);
+
+    function handleAddContent(){
+        Alert.alert(
+            'Cloudbook',
+            'Escolha um tipo de conteúdo',
+            [
+                {
+                  text:'Foto 🖼️',
+                onPress :()=>{
+                        navigation.navigate('AddImageInContent')
+                    }
+                },
+                {
+                 text:'Anotação ✏️',
+                 onPress :()=>{
+                    navigation.navigate('AddAnnotationInContent')
+                },
+                
+                },
+                {
+                    text:'Cancelar',
+                    onPress :()=>{
+                       
+                   },
+                }
+            ]
+        )
+        
     }
+
+    function handleOpenContent(imageURI:string | undefined){
+        if(!imageURI){
+            return
+        }
+        
+        const imageFormatted=[{
+            uri:imageURI
+        }]
+        
+        setImageSelectedURI(imageFormatted)
+        setOpenGallery(true)
+    }
+
+    async function listContents(){
+        const files:ReadDirItem[] = await FS.readDir(pathSubject)
+        
+        const contents:DataListProps[] = []
+        files.map((async file=>{
+
+            let type = null;
+            
+            const nameAnnotationFormatted = file.name.substring(0,file.name.indexOf('.txt'))
+            const namePhotoFormatted = file.name.substring(0,file.name.indexOf('.jpg')) 
+                                        || file.name.substring(0,file.name.indexOf('.png'));
+            if(file.name.endsWith('.jpg') || file.name.endsWith('.png')){
+                
+                //IMAGEM
+                contents.push({
+                    id:String(uuid.v4()),
+                    date:Intl.DateTimeFormat('pt-BR', {
+                        day: '2-digit',
+                        month: 'narrow',
+                        year: 'numeric'
+                      }).format(file.mtime),
+                      
+                    image:'file://'+file.path,
+                    subject:titleSubject,
+                    type:'photo',
+                    title:namePhotoFormatted,
+                    
+                });
+            }else if(file.name.endsWith('.txt')){
+                //ANOTAÇÃO
+                contents.push({
+                    id:String(uuid.v4()),
+                    date:Intl.DateTimeFormat('pt-BR', {
+                        day: '2-digit',
+                        month: 'narrow',
+                        year: 'numeric'
+                      }).format(file.mtime),
+                    subject:titleSubject,
+                    type:'annotation',
+                    text: await FS.readFile(file.path),
+                    title:nameAnnotationFormatted,
+                    
+                });
+            }else{
+                return Alert.alert("Pasta corrompida")
+            }
+
+            setContents(contents);
+            
+            
+        }))
+    }
+
+    useFocusEffect(useCallback(()=>{
+        
+        listContents();
+        
+    },[]))
     return(
         <Container>
             
             <Header
-                title="Wallpapers Apple"
-                image='https://images.hdqwalls.com/wallpapers/apple-logo-bw-oz.jpg'
+                title={titleSubject}
+                image={imageTabSubject}
                 type='listThings'
                 
             />
             <ScrollView>
 
-            <Title>Conteúdos</Title>
-            <Repositories>
+            {contents[0]&&(<Title>Conteúdos</Title>)}
+            {contents[0] ?(
+                <ContentsView>
 
-            <ContentList
-                data={contents}
-                keyExtractor={item => item.id}
-                renderItem={({item})=> <Content data={item}/>}
-            />
-
-
-
-            </Repositories>
+                <ContentList
+                    data={contents}
+                    keyExtractor={item => item.id}
+                    renderItem={({item})=>
+                    <Content data={item} onPress={()=>handleOpenContent(item.image)} />
+                }
+                />
+    
+    
+                </ContentsView>
+            ):(
+                <WhithoutContent>
+                
+                <FontAwesome name="file-photo-o" size={45} color={theme.colors.primary} />
+                <TextNotContent>Não há conteúdos</TextNotContent>
+                 </WhithoutContent>
+            )}
+            
+            
             </ScrollView>
             <FabButton
                 icon='addfile'
                 type='addFile'
-                onPress={handleAddSubject}
+                onPress={handleAddContent}
              />
+
+                <ImageView
+                images={imageSelectedURI}
+                imageIndex={0}
+                presentationStyle='overFullScreen'
+                animationType="slide"
+                onLongPress={() => setOpenGallery(false)}
+                visible={openGallery}
+                
+                onRequestClose={() => setOpenGallery(false)}
+                />
         </Container>
     )
 }

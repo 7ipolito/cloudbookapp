@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button } from '../../components/Button';
-import { Input } from '../../components/Forms/Input';
-import { InputForm } from '../../components/InputForm';
-import { SelectButton } from '../../components/SelectButton';
-import { IconExit } from '../Profile/styles';
+import { Button } from '../../../components/Button';
+import { Input } from '../../../components/Forms/Input';
+import { InputForm } from '../../../components/InputForm';
+import { SelectButton } from '../../../components/SelectButton';
+import { IconExit } from '../../Profile/styles';
 import { Container,
     ImageContent,
     ChangePhoto, 
@@ -14,18 +14,16 @@ import { Container,
 import {useForm} from 'react-hook-form'
 import { useState } from 'react';
 import { Alert, Modal } from 'react-native';
-import { Category, SelectCategory } from '../SelectCategory';
+import { Category, SelectCategory } from '../../SelectCategory';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import {useNavigation} from '@react-navigation/native'
-import { Header } from '../../components/Header';
-import { SelectRepository } from '../SelectRepository';
-import { options,categories } from '../../utils/options';
+import { Header } from '../../../components/Header';
+import { SelectRepository } from '../../SelectRepository';
+import { options,categories } from '../../../utils/options';
+import TextArea from '../../../components/TextArea';
 
 
-export type NavigationProps = {
-    navigate:(screen:string, options?:any) => void;
- }
 
 interface FormData{
     subject:string;
@@ -37,7 +35,7 @@ const schema = yup.object().shape({
   });
   
 
-export function AddImage({navigation}:any){
+export function AddAnottation({navigation}:any){
 
     const[category,setCategory]=useState({
         key:'category',
@@ -95,16 +93,9 @@ export function AddImage({navigation}:any){
 
         <Container>
          <Header
-            title="Adicionar Foto"
-            icon={options[0].icon}
+            title="Adicionar Anotação"
+            icon={options[1].icon}
         />
-
-            <ChangePhoto>
-                    <ImageContent source={{uri:'https://cdnb.artstation.com/p/assets/images/images/024/538/827/original/pixel-jeff-clipa-s.gif?1582740711'}}/>
-                    <CircleCamera>
-                        <TargetCamera name="camera"/>
-                    </CircleCamera>
-            </ChangePhoto>
 
             <InputForm 
                 name='subject'
@@ -112,9 +103,18 @@ export function AddImage({navigation}:any){
                 icon='pencil'
                 autoCapitalize='sentences'
                 error={errors.subject && errors.subject.message}
-                placeholder='Digite o assunto'
+                placeholder='Informe o assunto'
                 placeholderTextColor='#666360'
             />
+
+          <TextArea
+           multiline
+           placeholder="Informe a anotação"
+           
+           maxLength={100}
+           numberOfLines={5}
+           autoCorrect={true}
+           /> 
 
             <SelectButton 
                 title={repository.title}

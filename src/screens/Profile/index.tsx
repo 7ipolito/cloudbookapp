@@ -14,7 +14,7 @@ import { SelectEmoji } from '../SelectEmoji';
 import { Button } from '../../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { NavigationProps } from '../AddImage';
+import { NavigationProps } from '../Shortcurts/AddImage';
 import { useEffect } from 'react';
 import * as ImagePicker from 'react-native-image-picker';
 export function Profile(){
@@ -141,6 +141,7 @@ export function Profile(){
                 <Input
                     icon='person-outline' 
                     value={nameUser}
+                    maxLength={15}
                     onChangeText={text=>setNameUser(text)}
                     error={errorInput===""?null:errorInput}
                  />

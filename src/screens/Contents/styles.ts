@@ -32,6 +32,22 @@ export const ContentList = styled(
     showsVerticalScrollIndicator: false,
     
   })``;
-    export const Repositories= styled.View`
+
+  export const TextNotContent=styled.Text`
+    color:${({theme})=>theme.colors.shape};
+    font-family:${({theme})=>theme.fonts.medium};
+    margin-top: 7px;
+    font-size: ${RFValue(24)}px;
+
+`;
+
+export const WhithoutContent= styled.View`
+    margin-top: 220px;
+    align-items: center;
+    justify-content: center;
+
+`;
+
+export const ContentsView= styled.View`
         align-items: center;
     `

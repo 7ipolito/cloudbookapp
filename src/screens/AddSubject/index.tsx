@@ -50,7 +50,7 @@ export function AddSubject({route, navigation}:any){
 
     const [imageURI,setImageURI] = useState('');
     const [imageSelected,setImageSelected] = useState(false);
-    const {path}= usePath();
+    const {pathRepository}= usePath();
 
 
     const {
@@ -76,9 +76,9 @@ export function AddSubject({route, navigation}:any){
         const nameSubjectHashed=nameSubject+separator+hash;
         const nameSubjectFormatted = nameSubjectHashed.substring(0,nameSubjectHashed.indexOf("|"));
 
-        const exists = await FS.exists(path+"/"+nameSubjectFormatted);
+        const exists = await FS.exists(pathRepository+"/"+nameSubjectFormatted);
         if (!exists){
-          await FS.mkdir(path+"/"+nameSubjectHashed).then(async r=>{
+          await FS.mkdir(pathRepository+"/"+nameSubjectHashed).then(async r=>{
               await movePhotoToSubjectsImagesFolder(hash);
             navigation.navigate('Subjects');
           }).catch(err=>{
@@ -148,6 +148,7 @@ export function AddSubject({route, navigation}:any){
                 name='subject'
                 control={control}
                 icon='pencil'
+                maxLength={18}
                 autoCapitalize='sentences'
                 error={errors.subject && errors.subject.message}
                 placeholder='Nome da disciplina'

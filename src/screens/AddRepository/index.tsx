@@ -59,7 +59,7 @@ export function AddRepository({navigation}:any){
         }
             
         await createFolderRepository(String(content.repository))
-
+        
     }
 
     async function createFolderRepository(nameRepository:string){
@@ -143,6 +143,7 @@ export function AddRepository({navigation}:any){
                 name='repository'
                 control={control}
                 icon='pencil'
+                maxLength={18}
                 autoCapitalize='sentences'
                 error={errors.repository && errors.repository.message}
                 placeholder='Nome do repositório'

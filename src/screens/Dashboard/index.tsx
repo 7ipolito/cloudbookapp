@@ -10,7 +10,7 @@ import { Card } from "../../components/Card";
 import { FabButton } from "../../components/FabButton";
 import { Repository, RepositoryProps } from "../../components/Repository";
 import { cloudbookPath, options, repositoriesImagesPath } from "../../utils/options";
-import { NavigationProps } from "../AddImage";
+import { NavigationProps } from "../Shortcurts/AddImage";
 import { Container, NameUser, PhotoButton, Slider,Cards,Title, EmojiButton, TextNotRepository, WhithoutRepositoryContent } from "./styles";
 import uuid from 'react-native-uuid';
 import { Entypo } from '@expo/vector-icons'; 
@@ -39,7 +39,7 @@ export function Dashboard({navigation}:any){
     const [imageUser,setImageUser]=useState('');
 
     //Utilizando Hook
-    const {setTitle,setPath,setImagePathTab}= usePath();
+    const {setTitleRepository,setPathRepository,setImagePathTabRepository}= usePath();
 
     const [nameUser,setNameUser]= useState('User');
     const [repositories,setRepositories]=useState<DataListProps[]>([])
@@ -86,17 +86,18 @@ export function Dashboard({navigation}:any){
     }
 
     function handleNavigate(nameScreen:string){
-            if(!nameScreen)
+            
                 return Alert.alert("Funcionalidade não implementada")
-            navigation.navigate(nameScreen)    
+            
     }
 
     function handleGoSubjects(pathRepository:string,title:string,imageRepository:string){
 
-        setTitle(title)
-        setImagePathTab(imageRepository)
-        setPath(pathRepository)
+        setTitleRepository(title)
+        setImagePathTabRepository(imageRepository)
+        setPathRepository(pathRepository)
         navigation.navigate('Subjects')
+        
           
     }
 

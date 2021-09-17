@@ -1,13 +1,20 @@
 import React,{createContext, ReactNode, useContext, useEffect, useState} from 'react';
 
 interface IPathContextData{
-    title:string;
-    path:string;
-    imageTab:string;
-    setTitle:(title:string)=>void;
-    setPath:(path:string)=>void;
-    setImagePathTab:(image:string)=>void;
+    titleRepository:string;
+    pathRepository:string;
+    imageTabRepository:string;
+    setTitleRepository:(title:string)=>void;
+    setPathRepository:(path:string)=>void;
+    setImagePathTabRepository:(image:string)=>void;
+    titleSubject:string;
+    pathSubject:string;
+    imageTabSubject:string;
+    setTitleSubject:(title:string)=>void;
+    setPathSubject:(path:string)=>void;
+    setImagePathTabSubject:(image:string)=>void;
    
+    
 }
 
 interface PathProviderProps{
@@ -18,19 +25,29 @@ export const PathContext = createContext({} as IPathContextData)
 
 function PathProvider({children}:PathProviderProps){
 
-    const[title,setTitle]=useState('')
-    const[path,setPath]=useState('')
-    const[imagePathTab,setImagePathTab]=useState('')
+    const[titleRepository,setTitleRepository]=useState('')
+    const[pathRepository,setPathRepository]=useState('')
+    const[imageTabRepository,setImagePathTabRepository]=useState('')
+
+    const[titleSubject,setTitleSubject]=useState('')
+    const[pathSubject,setPathSubject]=useState('')
+    const[imageTabSubject,setImagePathTabSubject]=useState('')
 
     return(
         <PathContext.Provider value={{
-            path,
-            title,
-            imageTab:imagePathTab,
-            setTitle,
-            setImagePathTab,
-            setPath
-            }}>
+            imageTabRepository,
+            imageTabSubject,
+            pathRepository,
+            pathSubject,
+            setImagePathTabRepository,
+            setImagePathTabSubject,
+            setPathRepository,
+            setPathSubject,
+            setTitleRepository,
+            setTitleSubject,
+            titleRepository,
+            titleSubject
+        }}>
             {children}
         </PathContext.Provider>
     )
