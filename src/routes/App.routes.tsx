@@ -12,7 +12,10 @@ import { Contents } from '../screens/Contents';
 import { SignIn } from '../screens/SignIn';
 import { AddImageInContent } from '../screens/AddImageInContent';
 import { AddAnnotationInContent } from '../screens/AddAnnotationInContent';
+<<<<<<< HEAD
 import { AnimatePresence } from 'framer-motion';
+=======
+>>>>>>> 70ad7d253eae47842613b434f4c48aed25d03649
 
 const {Navigator, Screen}= createNativeStackNavigator();
 

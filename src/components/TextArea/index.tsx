@@ -9,6 +9,14 @@ interface Props extends TextInputProps{
     error?:string;
 }
 
+
+
+interface Props extends TextInputProps{
+    control:Control;
+    name: string;
+    error?:string;
+}
+
 export function TextArea({
     control,
     name,

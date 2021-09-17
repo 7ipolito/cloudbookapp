@@ -87,7 +87,7 @@ export function Dashboard({navigation}:any){
 
     function handleNavigate(nameScreen:string){
             
-        return Alert.alert("Funcionalidade não implementada")
+                return Alert.alert("Funcionalidade não implementada")
             
     }
 
