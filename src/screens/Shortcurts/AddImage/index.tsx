@@ -81,7 +81,7 @@ export function AddImage({navigation}:any){
             category:category.title
         }
 
-        console.log(data)
+        
         navigation.navigate('Dashboard');
 
     }

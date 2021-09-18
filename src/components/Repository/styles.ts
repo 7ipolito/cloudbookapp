@@ -2,7 +2,7 @@ import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 import {Image} from 'react-native'
-import { RectButton } from "react-native-gesture-handler";
+import { RectButton, TouchableHighlight } from "react-native-gesture-handler";
 export const Container = styled(RectButton)`
 
        background-color: ${({theme})=> theme.colors.title};

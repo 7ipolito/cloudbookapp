@@ -96,7 +96,6 @@ export function AddRepository({navigation}:any){
         }
 
         ImagePicker.launchImageLibrary(options, (response) => {
-            console.log('Response = ', response);
       
             if (response.didCancel) {
               console.log('User cancelled image picker');

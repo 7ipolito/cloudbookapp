@@ -49,10 +49,5 @@ export const WhithoutContent= styled.View`
 `;
 
 export const ContentsView= styled.View`
-<<<<<<< HEAD
     align-items: center;
 `;
-=======
-        align-items: center;
-    `
->>>>>>> 70ad7d253eae47842613b434f4c48aed25d03649
