@@ -97,8 +97,28 @@ export function Dashboard({navigation}:any){
         setImagePathTabRepository(imageRepository)
         setPathRepository(pathRepository)
         navigation.navigate('Subjects')
-        
           
+    }
+
+    function handleDeleteRepository(path:string,title:string){
+        return Alert.alert(
+            'Deletar '+title,
+            'Tem certeza que deseja deletar este repósitorio ?',
+            [
+                {
+                  text:'Deletar',
+                onPress :()=>{
+                        navigation.navigate('AddImageInContent')
+                    }
+                },
+                {
+                    text:'Cancelar',
+                  onPress :()=>{
+                          
+                      }
+                  },
+            ]
+        )
     }
 
     async function listRepositories(){
@@ -201,7 +221,11 @@ export function Dashboard({navigation}:any){
                                   handleGoSubjects(
                                       item.pathRepository,
                                       item.title,
-                                      item.image)}
+                                      item.image)
+                                }
+                                
+
+                            
                                   data={item}/>
                               }
                       />

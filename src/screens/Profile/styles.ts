@@ -74,7 +74,7 @@ export const TargetCamera=styled(Feather)`
 
 export const Footer = styled.View`
     align-items: center;
-    margin-top: ${RFValue(190)}px;
+    margin-top: ${RFValue(170)}px;
     
 `
 export const LoadContainer = styled.View`

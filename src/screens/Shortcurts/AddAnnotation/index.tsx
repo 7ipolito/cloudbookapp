@@ -72,7 +72,7 @@ export function AddAnottation({navigation}:any){
             category:category.title
         }
 
-        console.log(data)
+        
         navigation.navigate('Dashboard');
 
     }
@@ -120,7 +120,7 @@ export function AddAnottation({navigation}:any){
             <Footer>
                 <Button 
                 title='Salvar'
-                    onPress={handleSubmit(handleSave)}
+                onPress={handleSubmit(handleSave)}
                  />
             </Footer>
 

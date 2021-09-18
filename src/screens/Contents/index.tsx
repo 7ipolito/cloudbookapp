@@ -1,20 +1,10 @@
-<<<<<<< HEAD
 import { useFocusEffect } from '@react-navigation/native';
-=======
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
->>>>>>> 70ad7d253eae47842613b434f4c48aed25d03649
 import React, { useCallback, useState } from 'react';
 import { Alert, ScrollView } from 'react-native';
 import { ReadDirItem } from 'react-native-fs';
 import { Content, ContentProps } from '../../components/Content';
 import { FabButton } from '../../components/FabButton';
 import { Header } from '../../components/Header';
-<<<<<<< HEAD
-=======
-import { Repository } from '../../components/Repository';
-import { Subject, SubjectProps } from '../../components/Subject';
-import { NavigationProps } from '../Shortcurts/AddImage';
->>>>>>> 70ad7d253eae47842613b434f4c48aed25d03649
 import * as FS from 'react-native-fs';
 import { Container,Title,ContentsView,ContentList, WhithoutContent, TextNotContent } from './styles';
 import uuid from 'react-native-uuid';
@@ -67,7 +57,6 @@ export function Contents({navigation}:any){
             ]
         )
         
-<<<<<<< HEAD
     }
 
     function handleOpenContent(imageURI:string | undefined){
@@ -83,33 +72,11 @@ export function Contents({navigation}:any){
         setOpenGallery(true)
     }
 
-=======
-    }
-
-    function handleOpenContent(imageURI:string | undefined){
-        if(!imageURI){
-            return
-        }
-        
-        const imageFormatted=[{
-            uri:imageURI
-        }]
-        
-        setImageSelectedURI(imageFormatted)
-        setOpenGallery(true)
-    }
-
->>>>>>> 70ad7d253eae47842613b434f4c48aed25d03649
     async function listContents(){
         const files:ReadDirItem[] = await FS.readDir(pathSubject)
         
         const contents:DataListProps[] = []
         files.map((async file=>{
-<<<<<<< HEAD
-=======
-
-            let type = null;
->>>>>>> 70ad7d253eae47842613b434f4c48aed25d03649
             
             const nameAnnotationFormatted = file.name.substring(0,file.name.indexOf('.txt'))
             const namePhotoFormatted = file.name.substring(0,file.name.indexOf('.jpg')) 
@@ -151,12 +118,7 @@ export function Contents({navigation}:any){
             }
 
             setContents(contents);
-<<<<<<< HEAD
               
-=======
-            
-            
->>>>>>> 70ad7d253eae47842613b434f4c48aed25d03649
         }))
     }
 
@@ -165,10 +127,6 @@ export function Contents({navigation}:any){
         listContents();
         
     },[]))
-<<<<<<< HEAD
-
-=======
->>>>>>> 70ad7d253eae47842613b434f4c48aed25d03649
     return(
 
         <Container>
@@ -193,10 +151,6 @@ export function Contents({navigation}:any){
                 }
                 />
     
-<<<<<<< HEAD
-=======
-    
->>>>>>> 70ad7d253eae47842613b434f4c48aed25d03649
                 </ContentsView>
             ):(
                 <WhithoutContent>
@@ -206,17 +160,12 @@ export function Contents({navigation}:any){
                  </WhithoutContent>
             )}
             
-<<<<<<< HEAD
-=======
-            
->>>>>>> 70ad7d253eae47842613b434f4c48aed25d03649
             </ScrollView>
             <FabButton
                 icon='addfile'
                 type='addFile'
                 onPress={handleAddContent}
              />
-<<<<<<< HEAD
                 <ImageView
                     images={imageSelectedURI}
                     imageIndex={0}
@@ -226,18 +175,6 @@ export function Contents({navigation}:any){
                     visible={openGallery}
                     
                     onRequestClose={() => setOpenGallery(false)}
-=======
-
-                <ImageView
-                images={imageSelectedURI}
-                imageIndex={0}
-                presentationStyle='overFullScreen'
-                animationType="slide"
-                onLongPress={() => setOpenGallery(false)}
-                visible={openGallery}
-                
-                onRequestClose={() => setOpenGallery(false)}
->>>>>>> 70ad7d253eae47842613b434f4c48aed25d03649
                 />
         </Container>
     )

@@ -11,7 +11,7 @@ export const Container= styled.View`
 
 export const Footer = styled.View`
     align-items: center;
-    margin-top: ${RFValue(80)}px;
+    margin-top: ${RFValue(160)}px;
     
 `
 

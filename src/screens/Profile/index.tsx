@@ -107,7 +107,6 @@ export function Profile({navigation}:any){
 
             setImageUser(imageUser || '')
             if(imageUser!=null && imageUser!=''){
-                console.log(imageUser)
                 setImageSelected(true)
             }
             
