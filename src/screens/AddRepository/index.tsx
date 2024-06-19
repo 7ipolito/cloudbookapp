@@ -16,8 +16,7 @@ import * as yup from "yup";
 import { Header } from '../../components/Header';
 import { Repository } from '../SelectRepository';
 import { cloudbookPath, repositoriesImagesPath } from '../../utils/options';
-import * as ImagePicker from 'react-native-image-picker';
-import * as FS from 'react-native-fs';
+import * as ImagePicker from 'expo-image-picker';
 import uuid from 'react-native-uuid';
 
 export type NavigationProps = {
@@ -52,63 +51,56 @@ export function AddRepository({navigation}:any){
         if(imageURI === ''){
             return Alert.alert("Selecione uma imagem primeiro")
         }
-            
-        await createFolderRepository(String(content.repository))
+        console.log("Repositorio criado")
+        // await createFolderRepository(String(content.repository))
         
     }
 
-    async function createFolderRepository(nameRepository:string){
-        const hash = String(uuid.v4());
-        const separator = "|";
+    // async function createFolderRepository(nameRepository:string){
+    //     const hash = String(uuid.v4());
+    //     const separator = "|";
 
-        //PENDING
-        const nameRepositoryHashed=nameRepository+separator+hash;
-        const nameRepositoryFormatted = nameRepositoryHashed.substring(0,nameRepositoryHashed.indexOf("|"));
+    //     //PENDING
+    //     const nameRepositoryHashed=nameRepository+separator+hash;
+    //     const nameRepositoryFormatted = nameRepositoryHashed.substring(0,nameRepositoryHashed.indexOf("|"));
         
-        const exists = await FS.exists(cloudbookPath+"/"+nameRepositoryFormatted);
-        if (!exists){
-          await FS.mkdir(cloudbookPath+"/"+nameRepositoryHashed).then(async r=>{
-              await movePhotoToRepositoriesImagesFolder(hash);
-            navigation.navigate('Dashboard');
-          }).catch(err=>{
-              console.log(err)
-              return Alert.alert("Erro ao criar repositório")
+    //     const exists = await FS.exists(cloudbookPath+"/"+nameRepositoryFormatted);
+    //     if (!exists){
+    //       await FS.mkdir(cloudbookPath+"/"+nameRepositoryHashed).then(async r=>{
+    //           await movePhotoToRepositoriesImagesFolder(hash);
+    //         navigation.navigate('Dashboard');
+    //       }).catch(err=>{
+    //           console.log(err)
+    //           return Alert.alert("Erro ao criar repositório")
               
-          })
-        }else{
+    //       })
+    //     }else{
             
-            return Alert.alert("Erro este repositório já existe")
-        }
+    //         return Alert.alert("Erro este repositório já existe")
+    //     }
         
         
-    }
+    // }
 
-    async function movePhotoToRepositoriesImagesFolder(namePhoto:string){
-        await FS.moveFile(imageURI,repositoriesImagesPath+"/"+namePhoto+".jpg");
-    }
+    // async function movePhotoToRepositoriesImagesFolder(namePhoto:string){
+    //     await FS.moveFile(imageURI,repositoriesImagesPath+"/"+namePhoto+".jpg");
+    // }
 
-    function handleGallery(){
-        const options:any = {
-            storageOptions: {
-              skipBackup: true,
-              path: 'images',
-            }
+
+    const handleGallery = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          allowsEditing: true,
+          quality: 1,
+        });
+    
+        if (result.cancelled) {
+          console.log(result);
+        } else {
+            setImageSelected(true);
+            setImageURI(result!.uri || '');
+          
         }
-
-        ImagePicker.launchImageLibrary(options, (response) => {
-      
-            if (response.didCancel) {
-              console.log('User cancelled image picker');
-            } else if (response.errorCode) {
-              console.log('ImagePicker Error: ', response.errorCode);
-            } else {
-
-              setImageSelected(true);
-              setImageURI(response.assets![0].uri || '');
-            
-            }
-          });
-    }
+      };
 
 
     return(

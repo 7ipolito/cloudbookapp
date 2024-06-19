@@ -2,7 +2,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect} from "@react-navigation/native";
 import React, { useCallback,useState } from "react";
 import { Alert, LogBox,ActivityIndicator } from "react-native";
-import { ReadDirItem } from "react-native-fs";
 import { ScrollView } from "react-native-gesture-handler";
 import { FabButton } from "../../components/FabButton";
 import { Repository, RepositoryProps } from "../../components/Repository";
@@ -11,7 +10,6 @@ import { Container, NameUser, PhotoButton, Slider,Cards,Title,LoadContainer, Emo
 import uuid from 'react-native-uuid';
 import { Entypo } from '@expo/vector-icons'; 
 
-import * as FS from 'react-native-fs';
 import{
     Header,
     Text,
@@ -122,15 +120,15 @@ export function Dashboard({navigation}:any){
     }
 
     async function listRepositories(){
-        const folders:ReadDirItem[] = await FS.readDir(cloudbookPath)
+        const folders:any = []
         
         const repositories:DataListProps[] =[]
-        folders.map((async folder=>{
+        folders.map((async (folder: { name: string; mtime: number | Date | undefined; path: any; })=>{
 
             const nameImageFormatted = folder.name.substring(folder.name.indexOf("|")+1);
             const nameRepositoryFormatted = folder.name.substring(0,folder.name.indexOf("|"))
 
-            const dirItens = await FS.readDir(folder.path)
+            const dirItens = []
             const countSubjects=dirItens.length;
             
             if(folder.name!='images'){
