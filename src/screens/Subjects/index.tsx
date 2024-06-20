@@ -1,13 +1,11 @@
 import { useFocusEffect, useNavigation,  } from '@react-navigation/native';
 import React,{useCallback, useState} from 'react';
 import { ScrollView } from 'react-native';
-import { ReadDirItem } from 'react-native-fs';
 import { FabButton } from '../../components/FabButton';
 import { Header } from '../../components/Header';
 import { Subject, SubjectProps } from '../../components/Subject';
 import { subjectsImagesPath } from '../../utils/options';
 import uuid from 'react-native-uuid';
-import * as FS from 'react-native-fs';
 import { Container,Title,SubjectsView,SubjectList, WhithoutSubjectContent, TextNotSubject } from './styles';
 import { usePath } from '../../hooks/usePath';
 import theme from '../../global/theme';
@@ -37,16 +35,16 @@ export function Subjects({navigation}:any){
     }
 
     async function listSubjects(){
-        const folders:ReadDirItem[] = await FS.readDir(pathRepository)
+        const folders:any = []
         
         const subjects:DataListProps[] = []
-        folders.map((async folder=>{
+        folders.map((async (folder: { name: string; path: any; mtime: number | Date | undefined; })=>{
             const nameImageFormatted = folder.name.substring(folder.name.indexOf("|")+1);
             const nameSubjectFormatted = folder.name.substring(0,folder.name.indexOf("|"));
 
             
-            const dirItens = await FS.readDir(folder.path)
-            const countContent=dirItens.length;
+            // const dirItens = await FS.readDir(folder.path)
+            // const countContent=dirItens.length;
 
             
             
@@ -58,7 +56,7 @@ export function Subjects({navigation}:any){
                     year: 'numeric'
                   }).format(folder.mtime),
                 image:"file://"+subjectsImagesPath+"/"+nameImageFormatted+".jpg",
-                number_matter:countContent,
+                number_matter:0,
                 title:nameSubjectFormatted,
                 path:folder.path
                 

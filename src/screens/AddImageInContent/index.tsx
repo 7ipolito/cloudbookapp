@@ -16,8 +16,7 @@ import { InputForm } from '../../components/InputForm';
 import { Header } from '../../components/Header';
 import { Button } from '../../components/Button';
 import { usePath } from '../../hooks/usePath';
-import * as ImagePicker from 'react-native-image-picker';
-import * as FS from 'react-native-fs';
+import * as ImagePicker from 'expo-image-picker';
 
 
 export type NavigationProps = {
@@ -54,51 +53,45 @@ export function AddImageInContent({navigation}:any){
       if(imageURI ===  '')
       return Alert.alert('Selecione uma imagem primeiro')
 
-      
-      await movePhotoToSubject(String(content.image))
+      console.log("Imagem adicionada")
+      // await movePhotoToSubject(String(content.image))
 
     }
 
-    async function movePhotoToSubject(namePhoto:string){
+  //   async function movePhotoToSubject(namePhoto:string){
 
-      const exists = await FS.exists(pathSubject+"/"+namePhoto);
-      if (!exists){
-        FS.moveFile(imageURI,pathSubject+"/"+namePhoto+".jpg").then(r=>{
-          navigation.navigate('Contents');
-        }).catch(err=>{
-          console.log(err)
-          return Alert.alert("Erro ao adicionar conteúdo")
-        })
+  //     const exists = await FS.exists(pathSubject+"/"+namePhoto);
+  //     if (!exists){
+  //       FS.moveFile(imageURI,pathSubject+"/"+namePhoto+".jpg").then(r=>{
+  //         navigation.navigate('Contents');
+  //       }).catch(err=>{
+  //         console.log(err)
+  //         return Alert.alert("Erro ao adicionar conteúdo")
+  //       })
 
-      }else{
+  //     }else{
           
-          return Alert.alert("Erro este conteúdo já existe")
-      }   
-  }
+  //         return Alert.alert("Erro este conteúdo já existe")
+  //     }   
+  // }
 
-    function handleGallery(){
-      const options:any = {
-          storageOptions: {
-            skipBackup: true,
-            path: 'images',
-          }
-      }
 
-      ImagePicker.launchImageLibrary(options, (response) => {
-          console.log('Response = ', response);
-    
-          if (response.didCancel) {
-            console.log('User cancelled image picker');
-          } else if (response.errorCode) {
-            console.log('ImagePicker Error: ', response.errorCode);
-          } else {
 
-            setImageSelected(true);
-            setImageURI(response.assets![0].uri || '');
-          
-          }
+      const handleGallery = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          allowsEditing: true,
+          quality: 1,
         });
-    }
+    
+        if (result.cancelled) {
+          console.log(result);
+        } else {
+          setImageSelected(true);
+            setImageURI(result!.uri || '');
+          
+        }
+      };
+     
     return(
        
 
@@ -142,4 +135,5 @@ export function AddImageInContent({navigation}:any){
             
         </Container>
     )
+
 }

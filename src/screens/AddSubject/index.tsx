@@ -12,8 +12,7 @@ import {useForm} from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { Header } from '../../components/Header';
-import * as ImagePicker from 'react-native-image-picker';
-import * as FS from 'react-native-fs';
+import * as ImagePicker from 'expo-image-picker';
 import uuid from 'react-native-uuid';
 import { Alert } from 'react-native';
 import { usePath } from '../../hooks/usePath';
@@ -36,6 +35,7 @@ const schema = yup.object().shape({
   });
   
 
+  
 export function AddSubject({route, navigation}:any){
 
     const [imageURI,setImageURI] = useState('');
@@ -55,63 +55,56 @@ export function AddSubject({route, navigation}:any){
     async function handleSave(content:FormData){
         if(imageURI ===  '')
             return Alert.alert('Selecione uma imagem primeiro')
-        await createFolderSubject(String(content.subject))
+
+        console.log("Umagem adicionada")
+        // await createFolderSubject(String(content.subject))
 
     }
 
-    async function createFolderSubject(nameSubject:string){
-        const hash = String(uuid.v4());
-        const separator = "|";
-        //PENDING
-        const nameSubjectHashed=nameSubject+separator+hash;
-        const nameSubjectFormatted = nameSubjectHashed.substring(0,nameSubjectHashed.indexOf("|"));
+    // async function createFolderSubject(nameSubject:string){
+    //     const hash = String(uuid.v4());
+    //     const separator = "|";
+    //     //PENDING
+    //     const nameSubjectHashed=nameSubject+separator+hash;
+    //     const nameSubjectFormatted = nameSubjectHashed.substring(0,nameSubjectHashed.indexOf("|"));
 
-        const exists = await FS.exists(pathRepository+"/"+nameSubjectFormatted);
-        if (!exists){
-          await FS.mkdir(pathRepository+"/"+nameSubjectHashed).then(async r=>{
-              await movePhotoToSubjectsImagesFolder(hash);
-            navigation.navigate('Subjects');
-          }).catch(err=>{
-              console.log(err)
-              return Alert.alert("Erro ao criar disciplina")
+    //     const exists = await FS.exists(pathRepository+"/"+nameSubjectFormatted);
+    //     if (!exists){
+    //       await FS.mkdir(pathRepository+"/"+nameSubjectHashed).then(async r=>{
+    //           await movePhotoToSubjectsImagesFolder(hash);
+    //         navigation.navigate('Subjects');
+    //       }).catch(err=>{
+    //           console.log(err)
+    //           return Alert.alert("Erro ao criar disciplina")
               
-          })
-        }else{
+    //       })
+    //     }else{
             
-            return Alert.alert("Erro está pasta já existe")
-        }
+    //         return Alert.alert("Erro está pasta já existe")
+    //     }
         
         
-    }
+    // }
 
 
+    const handleGallery = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          allowsEditing: true,
+          quality: 1,
+        });
+    
+        if (result.cancelled) {
+          console.log(result);
+        } else {
+            setImageSelected(true);
+            setImageURI(result!.uri || '');        }
+      };
 
-    function handleGallery(){
-        const options:any = {
-            storageOptions: {
-              skipBackup: true,
-              path: 'images',
-            }
-        }
+  
 
-        ImagePicker.launchImageLibrary(options, (response) => {
-      
-            if (response.didCancel) {
-              console.log('User cancelled image picker');
-            } else if (response.errorCode) {
-              console.log('ImagePicker Error: ', response.errorCode);
-            } else {
-
-              setImageSelected(true);
-              setImageURI(response.assets![0].uri || '');
-            
-            }
-          });
-    }
-
-    async function movePhotoToSubjectsImagesFolder(namePhoto:string){
-        await FS.moveFile(imageURI,subjectsImagesPath+"/"+namePhoto+".jpg");
-    }
+    // async function movePhotoToSubjectsImagesFolder(namePhoto:string){
+    //     await FS.moveFile(imageURI,subjectsImagesPath+"/"+namePhoto+".jpg");
+    // }
     return(
        
 

@@ -1,11 +1,9 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useState } from 'react';
 import { Alert, ScrollView } from 'react-native';
-import { ReadDirItem } from 'react-native-fs';
 import { Content, ContentProps } from '../../components/Content';
 import { FabButton } from '../../components/FabButton';
 import { Header } from '../../components/Header';
-import * as FS from 'react-native-fs';
 import { Container,Title,ContentsView,ContentList, WhithoutContent, TextNotContent } from './styles';
 import uuid from 'react-native-uuid';
 import { usePath } from '../../hooks/usePath';
@@ -73,10 +71,10 @@ export function Contents({navigation}:any){
     }
 
     async function listContents(){
-        const files:ReadDirItem[] = await FS.readDir(pathSubject)
+        const files:any = []
         
         const contents:DataListProps[] = []
-        files.map((async file=>{
+        files.map((async (file: { name: string; mtime: number | Date | undefined; path: string; })=>{
             
             const nameAnnotationFormatted = file.name.substring(0,file.name.indexOf('.txt'))
             const namePhotoFormatted = file.name.substring(0,file.name.indexOf('.jpg')) 
@@ -109,7 +107,7 @@ export function Contents({navigation}:any){
                       }).format(file.mtime),
                     subject:titleSubject,
                     type:'annotation',
-                    text: await FS.readFile(file.path),
+                    text: "text",
                     title:nameAnnotationFormatted,
                     
                 });

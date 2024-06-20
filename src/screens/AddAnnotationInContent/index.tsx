@@ -9,9 +9,6 @@ import {TextArea} from '../../components/TextArea';
 import { Header } from '../../components/Header';
 import { Button } from '../../components/Button';
 import { usePath } from '../../hooks/usePath';
-import * as FS from 'react-native-fs';
-
-
 
 interface FormData{
     title:string;
@@ -44,19 +41,19 @@ export function AddAnnotationInContent({navigation}:any){
 
     async function moveAnnotationToSubject(nameAnnotation:string,text:string){
 
-        const exists = await FS.exists(pathSubject+"/"+nameAnnotation+".txt");
-        if (!exists){
-          FS.writeFile(pathSubject+'/'+nameAnnotation+'.txt',text).then(r=>{
-            navigation.navigate("Contents")
-          }).catch(err=>{
-              console.log(err)
-              return Alert.alert("Não foi possível criar o conteúdo")
-          })
+        // const exists = await FS.exists(pathSubject+"/"+nameAnnotation+".txt");
+        // if (!exists){
+        //   FS.writeFile(pathSubject+'/'+nameAnnotation+'.txt',text).then(r=>{
+        //     navigation.navigate("Contents")
+        //   }).catch(err=>{
+        //       console.log(err)
+        //       return Alert.alert("Não foi possível criar o conteúdo")
+        //   })
   
-        }else{
+        // }else{
             
-            return Alert.alert("Erro este conteúdo já existe")
-        }   
+        //     return Alert.alert("Erro este conteúdo já existe")
+        // }   
     }
     return(
        

@@ -10,10 +10,8 @@ import { Container,
         FooterWrapper 
 } from './styles';
 import { SignInSocialButton } from '../../components/SignInSocialButton';
-import * as FS from 'react-native-fs';
 import { useNavigation } from "@react-navigation/native";
 import { Alert, PermissionsAndroid } from 'react-native';
-import { cloudbookPath, imagesPath, repositoriesImagesPath, subjectsImagesPath } from '../../utils/options';
 
 
 type NavigationProps = {
@@ -30,89 +28,65 @@ type NavigationProps = {
     isDirectory: () => boolean;   // Is the file a directory?
   };
 
-export function SignIn({}){
+export function SignIn(){
     
     const navigation = useNavigation<NavigationProps>()
         
 
 
     function handleStart(){
-        getPermissionStorage();
-        
-    }
-
-    async function getPermissionStorage(){
-        try {
-            const granted = await PermissionsAndroid.request(
-              PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-              {
-                title: "Permissão para armazenamento",
-                message:
-                  "O Cloudbook precisa dessa permissão para funcionar corretamente",
-                buttonNegative: "Cancelar",
-                buttonPositive: "OK"
-              }
-            );
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                createFolderMain();
-            } else {
-              return Alert.alert("Permissão de armazenamento negada...");
-              
-            }
-          } catch (err) {
-            console.warn(err);
-            return false;
-          }
-    }
-
-    async function createFolderMain(){
-        
-
-        const exists = await FS.exists(cloudbookPath);
-        if (!exists){
-          await FS.mkdir(cloudbookPath).then(async r=>{
-                createFolderImages();
-
-          }).catch(err=>{
-              console.log(err)
-              return Alert.alert("Erro ao criar pasta")
-              
-          })
-        }
         navigation.navigate('Dashboard')
         
     }
 
-    async function createFolderImages(){
-        await FS.mkdir(imagesPath).then(r=>{
-            createFolderRepositoriesImages();
-            
-        }).catch(err=>{
-            console.log(err)
-            return Alert.alert("Erro ao criar pasta")
+   
+    async function createFolderMain(){
         
-        })
+
+        // const exists = await FS.exists(cloudbookPath);
+        // if (!exists){
+        //   await FS.mkdir(cloudbookPath).then(async r=>{
+        //         createFolderImages();
+
+        //   }).catch(err=>{
+        //       console.log(err)
+        //       return Alert.alert("Erro ao criar pasta")
+              
+        //   })
+        // }
+        
     }
 
-    async function createFolderRepositoriesImages(){
-        await FS.mkdir(repositoriesImagesPath).then(r=>{
-            createFolderSubjectsImages();
-        }).catch(err=>{
-            console.log(err)
-            return Alert.alert("Erro ao criar pasta")
-        
-        })
-    }
-
-    async function createFolderSubjectsImages(){
-        await FS.mkdir(subjectsImagesPath).then(r=>{
+    // async function createFolderImages(){
+    //     await FS.mkdir(imagesPath).then(r=>{
+    //         createFolderRepositoriesImages();
             
-        }).catch(err=>{
-            console.log(err)
-            return Alert.alert("Erro ao criar pasta")
+    //     }).catch(err=>{
+    //         console.log(err)
+    //         return Alert.alert("Erro ao criar pasta")
         
-        })
-    }
+    //     })
+    // }
+
+    // async function createFolderRepositoriesImages(){
+    //     await FS.mkdir(repositoriesImagesPath).then(r=>{
+    //         createFolderSubjectsImages();
+    //     }).catch(err=>{
+    //         console.log(err)
+    //         return Alert.alert("Erro ao criar pasta")
+        
+    //     })
+    // }
+
+    // async function createFolderSubjectsImages(){
+    //     await FS.mkdir(subjectsImagesPath).then(r=>{
+            
+    //     }).catch(err=>{
+    //         console.log(err)
+    //         return Alert.alert("Erro ao criar pasta")
+        
+    //     })
+    // }
 
 
 
