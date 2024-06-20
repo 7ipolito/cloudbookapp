@@ -260,12 +260,12 @@ export function Dashboard({ navigation }: any) {
                     />
                 </LoadContainer>
             )}
-
-            <FabButton
-                icon="addfolder"
-                type="addRepository"
-                onPress={handleAddRepository}
-            />
+                <FabButton
+                    icon="addfolder"
+                    type="addRepository"
+                    onPress={handleAddRepository}
+                />
+          
         </Container>
     );
 }

@@ -43,20 +43,20 @@ export const Photo = styled.Image`
     width: ${RFValue(186)}px;
     height: ${RFValue(186)}px;
 
-    border-radius: 90px;
+    border-radius: 200px;
 `;
 
 export const CircleCamera = styled(RectButton)`
     width: ${RFValue(50)}px;
     height: ${RFValue(50)}px;
-    border-radius: 40px;
+    border-radius: 25px;
     background-color: ${({ theme }) => theme.colors.input};
 
     align-items: center;
     justify-content: center;
     position: absolute;
-    margin-left: 120px;
-    margin-top: 130px;
+    right:25px;
+    bottom:0;
 `;
 
 export const TargetCamera = styled(Feather)`

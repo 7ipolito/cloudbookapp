@@ -1,10 +1,10 @@
-import { FlatList } from 'react-native';
+import { FlatList, SafeAreaView } from 'react-native';
 import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 import { DataListProps } from '.';
 
-export const Container = styled.View`
+export const Container = styled(SafeAreaView)`
     flex: 1%;
     background-color: ${({ theme }) => theme.colors.background};
 `;
@@ -12,7 +12,7 @@ export const Container = styled.View`
 export const Header = styled.View`
     width: 100%;
     height: ${RFValue(56)}px;
-    margin-top: 68px;
+    margin-top: 48px;
 
     flex-direction: row;
     justify-content: space-between;
@@ -90,3 +90,7 @@ export const LoadContainer = styled.View`
     justify-content: center;
     align-items: center;
 `;
+
+export const FabButtonMargin = styled.View`
+    margin-bottom: ;
+`

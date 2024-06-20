@@ -12,8 +12,8 @@ export const Container = styled(RectButton)`
     align-items: center;
     justify-content: center;
     position: absolute;
-    margin-left: ${RFValue(270)}px;
-    margin-top: ${RFValue(660)}px;
+    bottom:10px;
+    right: 10px;
 `;
 
 export const IconRepository = styled(AntDesign)`
