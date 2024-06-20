@@ -3,125 +3,111 @@ import { Button } from '../../../components/Button';
 import { InputForm } from '../../../components/InputForm';
 import { SelectButton } from '../../../components/SelectButton';
 import { Container, Footer } from './styles';
-import {useForm} from 'react-hook-form'
+import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { Alert, Modal } from 'react-native';
 import { Category, SelectCategory } from '../../SelectCategory';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from "yup";
+import * as yup from 'yup';
 import { Header } from '../../../components/Header';
 import { SelectRepository } from '../../SelectRepository';
-import {TextArea} from '../../../components/TextArea';
+import { TextArea } from '../../../components/TextArea';
 
-interface FormData{
-    subject:string;
-    category:Category;
+interface FormData {
+    subject: string;
+    category: Category;
 }
 
 const schema = yup.object().shape({
-    subject: yup.string().required("Preenchimento obrigatório"),
-  });
-  
+    subject: yup.string().required('Preenchimento obrigatório')
+});
 
-export function AddAnottation({navigation}:any){
+export function AddAnottation({ navigation }: any) {
+    const [category, setCategory] = useState({
+        key: 'category',
+        title: 'Selecione a Categoria'
+    });
 
-    const[category,setCategory]=useState({
-        key:'category',
-        title:'Selecione a Categoria',
-    })
+    const [repository, setRepository] = useState({
+        id: 'repository',
+        title: 'Selecione o Repositório',
+        image: ''
+    });
 
-    const[repository,setRepository]=useState({
-        id:'repository',
-        title:'Selecione o Repositório',
-        image:''
-    })
-
-    const [categoryModalOpen,setCategoryModalOpen]=useState(false);
-    const [repositoryModalOpen,setRepositoryModalOpen]=useState(false);
+    const [categoryModalOpen, setCategoryModalOpen] = useState(false);
+    const [repositoryModalOpen, setRepositoryModalOpen] = useState(false);
 
     const {
         control,
         handleSubmit,
-        formState:{errors}
-    }= useForm({
+        formState: { errors }
+    } = useForm({
         resolver: yupResolver(schema)
-    })
+    });
 
-    function handleCloseSelectCategoryModal(){
+    function handleCloseSelectCategoryModal() {
         setCategoryModalOpen(false);
     }
 
-    function handleOpenSelectCategoryModal(){
+    function handleOpenSelectCategoryModal() {
         setCategoryModalOpen(true);
     }
 
-    function handleCloseSelectRepositoryModal(){
+    function handleCloseSelectRepositoryModal() {
         setRepositoryModalOpen(false);
     }
 
-    function handleOpenSelectRepositoryModal(){
+    function handleOpenSelectRepositoryModal() {
         setRepositoryModalOpen(true);
     }
 
-    function handleSave(content:FormData){
-        if(category.key === 'category')
-        return Alert.alert('Selecione uma categoria')
+    function handleSave(content: FormData) {
+        if (category.key === 'category')
+            return Alert.alert('Selecione uma categoria');
 
-        const data={
-            subject:content.subject,
-            category:category.title
-        }
+        const data = {
+            subject: content.subject,
+            category: category.title
+        };
 
-        
         navigation.navigate('Dashboard');
-
     }
-    return(
-       
-
+    return (
         <Container>
-         <Header
-            title="Adicionar Anotação"
-            type="addContent"
-        />
+            <Header title="Adicionar Anotação" type="addContent" />
 
-            <InputForm 
-                name='subject'
+            <InputForm
+                name="subject"
                 control={control}
-                icon='pencil'
-                autoCapitalize='sentences'
+                icon="pencil"
+                autoCapitalize="sentences"
                 error={errors.subject && errors.subject.message}
-                placeholder='Informe o assunto'
-                placeholderTextColor='#666360'
+                placeholder="Informe o assunto"
+                placeholderTextColor="#666360"
             />
 
-          <TextArea
-           multiline
-           placeholder="Informe a anotação"
-           control={control}
-           name="example"
-           maxLength={100}
-           numberOfLines={5}
-           autoCorrect={true}
-           /> 
+            <TextArea
+                multiline
+                placeholder="Informe a anotação"
+                control={control}
+                name="example"
+                maxLength={100}
+                numberOfLines={5}
+                autoCorrect={true}
+            />
 
-            <SelectButton 
+            <SelectButton
                 title={repository.title}
                 onPress={handleOpenSelectRepositoryModal}
             />
 
-            <SelectButton 
+            <SelectButton
                 title={category.title}
                 onPress={handleOpenSelectCategoryModal}
             />
 
-           
-
             <Footer>
-                <Button 
-                title='Salvar'
-                onPress={handleSubmit(handleSave)}
-                 />
+                <Button title="Salvar" onPress={handleSubmit(handleSave)} />
             </Footer>
 
             <Modal
@@ -129,25 +115,24 @@ export function AddAnottation({navigation}:any){
                 animationType={'slide'}
                 visible={categoryModalOpen}
             >
-                    <SelectCategory
-                        category={category}
-                        setCategory={setCategory}
-                        closeSelectCategory={handleCloseSelectCategoryModal}
-                    />
-             </Modal>
+                <SelectCategory
+                    category={category}
+                    setCategory={setCategory}
+                    closeSelectCategory={handleCloseSelectCategoryModal}
+                />
+            </Modal>
 
-             <Modal
+            <Modal
                 statusBarTranslucent
                 animationType={'slide'}
                 visible={repositoryModalOpen}
             >
-                    <SelectRepository
-                        repository={repository}
-                        setRepository={setRepository}
-                        closeSelectRepository={handleCloseSelectRepositoryModal}
-                    />
-             </Modal>
-            
+                <SelectRepository
+                    repository={repository}
+                    setRepository={setRepository}
+                    closeSelectRepository={handleCloseSelectRepositoryModal}
+                />
+            </Modal>
         </Container>
-    )
+    );
 }

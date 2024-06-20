@@ -1,12 +1,10 @@
 {
-  "expo": {
-    "name": "Cloudbook",
-    "slug": "Cloudbook",
-    "scheme":"br.com.cloudbook",
-    "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
-  },
-  "name": "Cloudbook"
+    "expo": {
+        "name": "Cloudbook",
+        "slug": "Cloudbook",
+        "scheme": "br.com.cloudbook",
+        "version": "1.0.0",
+        "assetBundlePatterns": ["**/*"]
+    },
+    "name": "Cloudbook"
 }
