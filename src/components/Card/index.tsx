@@ -1,8 +1,8 @@
 import React from 'react';
 import { Container, Title } from './styles';
-import { SvgProps } from 'react-native-svg';
-import { RectButtonProps } from 'react-native-gesture-handler';
-
+ import { RectButtonProps } from 'react-native-gesture-handler';
+ import {SvgProps} from "react-native-svg"
+import {PhotoIcon} from "../../assets/icons/Photo"
 interface Props extends RectButtonProps {
     title: string;
     icon: React.FC<SvgProps>;

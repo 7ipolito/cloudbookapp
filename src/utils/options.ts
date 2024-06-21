@@ -1,18 +1,19 @@
-import PhotoSvg from '../assets/photo.svg';
-import AnotationSvg from '../assets/anotation.svg';
-import AudioSvg from '../assets/audio.svg';
-import StatsSvg from '../assets/stats.svg';
+import { PhotoIcon } from "../assets/icons/Photo";
+import { AnnotationIcon } from "../assets/icons/Annotation";
+import { AudioIcon } from "../assets/icons/Audio";
+import { StatsIcon } from "../assets/icons/Stats";
+
 
 export const options = [
-    { key: '1', title: 'Foto', icon: PhotoSvg, screen: 'AddImage' },
+    { key: '1', title: 'Foto', icon: PhotoIcon, screen: 'AddImage' },
     {
         key: '2',
         title: 'Anotação',
-        icon: AnotationSvg,
+        icon: AnnotationIcon,
         screen: 'AddAnnotation'
     },
-    { key: '3', title: 'Áudio', icon: AudioSvg, screen: '' },
-    { key: '4', title: 'Estatísticas', icon: StatsSvg, screen: '' }
+    { key: '3', title: 'Áudio', icon: AudioIcon, screen: '' },
+    { key: '4', title: 'Estatísticas', icon: StatsIcon, screen: '' }
 ];
 
 export const emojis = [

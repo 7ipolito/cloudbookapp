@@ -11,7 +11,6 @@ import {
     RobotoSlab_700Bold
 } from '@expo-google-fonts/roboto-slab';
 import { Rajdhani_700Bold } from '@expo-google-fonts/rajdhani';
-import AppLoading from 'expo-app-loading';
 import { ThemeProvider } from 'styled-components';
 import theme from './src/global/theme';
 import { Dashboard } from './src/screens/Dashboard';
@@ -22,7 +21,8 @@ import { AppRoutes } from './src/routes/App.routes';
 import { NavigationContainer } from '@react-navigation/native';
 import { SignIn } from './src/screens/SignIn';
 import { PathProvider } from './src/hooks/usePath';
-
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native';
 export default function App() {
     let [fontsLoaded] = useFonts({
         RobotoSlab_400Regular,
@@ -32,23 +32,30 @@ export default function App() {
     });
 
     if (!fontsLoaded) {
-        return <AppLoading />;
+        return <></>;
     }
 
     return (
         <>
             <StatusBar
-                barStyle="light-content"
+                barStyle="black-content"
                 backgroundColor="#222222"
                 translucent
             />
             <ThemeProvider theme={theme}>
                 <NavigationContainer>
-                    <PathProvider>
+                <GestureHandlerRootView style={styles.container}>
+                    <SafeAreaView style={styles.container}>
                         <AppRoutes />
-                    </PathProvider>
+                    </SafeAreaView>
+                </GestureHandlerRootView>
                 </NavigationContainer>
             </ThemeProvider>
         </>
     );
 }
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+  });

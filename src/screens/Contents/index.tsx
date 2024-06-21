@@ -16,7 +16,6 @@ import uuid from 'react-native-uuid';
 import { usePath } from '../../hooks/usePath';
 import theme from '../../global/theme';
 import { FontAwesome } from '@expo/vector-icons';
-import ImageView from 'react-native-image-viewing';
 
 export interface DataListProps extends ContentProps {
     id: string;
@@ -171,15 +170,15 @@ export function Contents({ navigation }: any) {
                 type="addFile"
                 onPress={handleAddContent}
             />
-            <ImageView
+            {/* <ImageView
                 images={imageSelectedURI}
                 imageIndex={0}
                 presentationStyle="overFullScreen"
                 animationType="slide"
                 onLongPress={() => setOpenGallery(false)}
                 visible={openGallery}
-                onRequestClose={() => setOpenGallery(false)}
-            />
+                onRequestClose={() => setOpenGallery(false)} */}
+            {/* /> */}
         </Container>
     );
 }

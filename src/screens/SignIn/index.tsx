@@ -1,5 +1,6 @@
 import React from 'react';
-import LogoSvg from '../../assets/logo.svg';
+import {LogoIcon} from '../../assets/icons/Logo';
+
 import { RFValue } from 'react-native-responsive-fontsize';
 import {
     Container,
@@ -82,7 +83,7 @@ export function SignIn() {
         <Container>
             <Header>
                 <TitleWrapper>
-                    <LogoSvg width={RFValue(120)} height={RFValue(113)} />
+                    <LogoIcon  />
 
                     <Title>
                         Organize seus estudos{'\n'}
