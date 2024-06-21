@@ -13,81 +13,41 @@ import { SignIn } from '../screens/SignIn';
 import { AddImageInContent } from '../screens/AddImageInContent';
 import { AddAnnotationInContent } from '../screens/AddAnnotationInContent';
 
+const { Navigator, Screen } = createNativeStackNavigator();
 
-const {Navigator, Screen}= createNativeStackNavigator();
-
-export function AppRoutes(){
+export function AppRoutes() {
     const theme = useTheme();
-    return(
-       
+    return (
         <Navigator
-             screenOptions={{
+            screenOptions={{
                 headerShown: false,
-                orientation: 'portrait',
-                
-
-             }}
+                orientation: 'portrait'
+            }}
         >
-            <Screen
-                name='SignIn'
-                component={SignIn}
-            />
-             
-            <Screen
-                name='Dashboard'
-                component={Dashboard}
-                
-            />
-            
+            <Screen name="SignIn" component={SignIn} />
+
+            <Screen name="Dashboard" component={Dashboard} />
+
+            <Screen name="Subjects" component={Subjects} />
+
+            <Screen name="Contents" component={Contents} />
+
+            <Screen name="Profile" component={Profile} />
+
+            <Screen name="AddImage" component={AddImage} />
+
+            <Screen name="AddImageInContent" component={AddImageInContent} />
+
+            <Screen name="AddRepository" component={AddRepository} />
+
+            <Screen name="AddSubject" component={AddSubject} />
+
+            <Screen name="AddAnnotation" component={AddAnottation} />
 
             <Screen
-                name='Subjects'
-                component={Subjects}
-            />
-
-            <Screen
-                name='Contents'
-                component={Contents}
-            />
-
-            <Screen 
-                name='Profile'
-                component={Profile}
-            />
-
-            <Screen
-                name='AddImage'
-                component={AddImage}
-            />
-
-            <Screen
-                name='AddImageInContent'
-                component={AddImageInContent}
-            />
-
-            <Screen
-                name='AddRepository'
-                component={AddRepository}
-            />
-
-            <Screen
-                name='AddSubject'
-                component={AddSubject}
-            />
-
-
-            <Screen
-                name='AddAnnotation'
-                component={AddAnottation}
-            />
-
-            <Screen
-                name='AddAnnotationInContent'
+                name="AddAnnotationInContent"
                 component={AddAnnotationInContent}
             />
-
-          
         </Navigator>
-        
-    )
+    );
 }

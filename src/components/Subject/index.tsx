@@ -1,7 +1,7 @@
 import React from 'react';
 import { RectButtonProps } from 'react-native-gesture-handler';
 
-import{
+import {
     Container,
     Content,
     ImageRepository,
@@ -14,40 +14,39 @@ import{
     Date
 } from './styles';
 
-export interface SubjectProps{
-    title:string;
-    image:string;
-    number_matter:number;
-    date:string;
-    path:string;
+export interface SubjectProps {
+    title: string;
+    image: string;
+    number_matter: number;
+    date: string;
+    path: string;
 }
 
-interface Props extends RectButtonProps{
-    data:SubjectProps;
+interface Props extends RectButtonProps {
+    data: SubjectProps;
 }
 
-export function Subject({
-    data,
-    ...rest
-}:Props){
-    return(
+export function Subject({ data, ...rest }: Props) {
+    return (
         <Container {...rest}>
-            <ImageRepository source={{uri:data.image}}/>
+            <ImageRepository source={{ uri: data.image }} />
             <Content>
                 <Title>{data.title}</Title>
                 <SubjectContent>
-                    <SubjectIcon name='subject'/>
-                    {data.number_matter===0
-                    ?<SubjectCount>Sem conteúdos</SubjectCount>
-                    :<SubjectCount>{data.number_matter} conteúdos</SubjectCount>
-                    }
+                    <SubjectIcon name="subject" />
+                    {data.number_matter === 0 ? (
+                        <SubjectCount>Sem conteúdos</SubjectCount>
+                    ) : (
+                        <SubjectCount>
+                            {data.number_matter} conteúdos
+                        </SubjectCount>
+                    )}
                 </SubjectContent>
                 <DateContent>
-                    <DateIcon name='clock'/>
+                    <DateIcon name="clock" />
                     <Date>Criado em {data.date}</Date>
                 </DateContent>
-              
             </Content>
         </Container>
-    )
+    );
 }

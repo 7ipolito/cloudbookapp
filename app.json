@@ -2,10 +2,13 @@
   "expo": {
     "name": "Cloudbook",
     "slug": "Cloudbook",
-    "scheme":"br.com.cloudbook",
+    "scheme": "br.com.cloudbook",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
+    ],
+    "plugins": [
+      "expo-font"
     ]
   },
   "name": "Cloudbook"
