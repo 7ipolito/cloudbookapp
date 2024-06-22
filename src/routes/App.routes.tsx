@@ -5,7 +5,7 @@ import { Dashboard } from '../screens/Dashboard';
 import { AddImage } from '../screens/Shortcurts/AddImage';
 import { useTheme } from 'styled-components';
 import { Profile } from '../screens/Profile';
-import { AddAnnotation, AddAnottation } from '../screens/Shortcurts/AddAnnotation';
+import {  AddAnottation } from '../screens/Shortcurts/AddAnnotation';
 import { AddRepository } from '../screens/AddRepository';
 import { Subjects } from '../screens/Subjects';
 import { AddSubject } from '../screens/AddSubject';
@@ -18,17 +18,20 @@ import { useAuth } from '../hooks/useAuth';
 const { Navigator, Screen } = createNativeStackNavigator();
 
 export function AppRoutes() {
-    const { userId } = useAuth();
+    const { user } = useAuth();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         // Verifica se userId está disponível
-        if (userId !== 0) {
+
+        console.log(user)
+        if (user?.id !== null) {
             setIsLoading(false);
-        }else if(userId == 0){
+        }else if(user?.id == null){
+
             setIsLoading(false)
         }
-    }, [userId]);
+    }, [user]);
 
     if (isLoading) {
         // Enquanto estiver carregando, exibe um indicador de atividade
@@ -46,7 +49,7 @@ export function AppRoutes() {
                 orientation: 'portrait'
             }}
         >
-            {userId === 0 && <Screen name="SignIn" component={SignIn} />}
+            {user?.id == null && <Screen name="SignIn" component={SignIn} />}
 
             <Screen name="Dashboard" component={Dashboard} />
 

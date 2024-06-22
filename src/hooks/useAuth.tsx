@@ -1,10 +1,18 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// Tipagem para o estado do usuário
+type User = {
+  id: number | null;
+  name?: string;
+  emoji?: number;
+  photo?: string;
+};
+
 // Tipagem para o contexto de autenticação
 type AuthContextType = {
-  userId: number | null;
-  login: (userId: number) => void;
+  user: User | null;
+  login: (userData: User) => void;
   logout: () => void;
 };
 
@@ -26,30 +34,30 @@ type AuthProviderProps = {
 };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [userId, setUserId] = useState<number>(0);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    // Função para carregar o userId do AsyncStorage ao iniciar o aplicativo
-    const loadUserId = async () => {
+    // Função para carregar o usuário do AsyncStorage ao iniciar o aplicativo
+    const loadUser = async () => {
       try {
-        const storedUserId = await AsyncStorage.getItem('userId');
-        if (storedUserId) {
-          setUserId(Number(storedUserId));
+        const storedUser = await AsyncStorage.getItem('user');
+        if (storedUser) {
+          setUser(JSON.parse(storedUser));
         }
       } catch (error) {
         console.error('Erro ao carregar usuário do AsyncStorage:', error);
       }
     };
 
-    // Carrega o userId ao montar o componente
-    loadUserId();
+    // Carrega o usuário ao montar o componente
+    loadUser();
   }, []);
 
   // Função para fazer login do usuário e armazenar no AsyncStorage
-  const login = async (userId: number) => {
+  const login = async (userData: User) => {
     try {
-      await AsyncStorage.setItem('userId', String(userId));
-      setUserId(userId);
+      await AsyncStorage.setItem('user', JSON.stringify(userData));
+      setUser(userData);
     } catch (error) {
       console.error('Erro ao salvar usuário no AsyncStorage:', error);
     }
@@ -58,15 +66,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   // Função para fazer logout do usuário e limpar o AsyncStorage
   const logout = async () => {
     try {
-      await AsyncStorage.removeItem('userId');
-      setUserId(null);
+      await AsyncStorage.removeItem('user');
+      setUser(null);
     } catch (error) {
       console.error('Erro ao remover usuário do AsyncStorage:', error);
     }
   };
 
   const authContextValue: AuthContextType = {
-    userId,
+    user,
     login,
     logout,
   };

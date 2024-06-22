@@ -23,12 +23,16 @@ import { ActivityIndicator, Alert, Modal } from 'react-native';
 import { SelectEmoji } from '../SelectEmoji';
 import { Button } from '../../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import theme from '../../global/theme';
 import { useAuth } from '../../hooks/useAuth';
 
+
+
 export function Profile({ navigation }: any) {
+ 
+    
     const [emoji, setEmoji] = useState({
         key: '14',
         title: 'Bandeira do Brasil',
@@ -72,6 +76,7 @@ export function Profile({ navigation }: any) {
 
     function handleLogout(){
         logout()
+        navigation.navigate("SignIn")
     }
 
     async function handleSave() {

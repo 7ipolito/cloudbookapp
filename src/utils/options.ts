@@ -17,22 +17,22 @@ export const options = [
 ];
 
 export const emojis = [
-    { key: '1', title: 'Maçã', emoji: '🍎' },
-    { key: '2', title: 'Formando', emoji: '👨🏻‍🎓' },
-    { key: '3', title: 'Formanda', emoji: '👩🏻‍🎓' },
-    { key: '4', title: 'Ábobora', emoji: '🎃' },
-    { key: '5', title: 'Aladin', emoji: '🧞‍♂️' },
-    { key: '6', title: 'Lo-fi', emoji: '🌆' },
-    { key: '7', title: 'Raio', emoji: '⚡' },
-    { key: '8', title: 'Jacaré', emoji: '🐊' },
-    { key: '9', title: 'Boneco de neve', emoji: '⛄' },
-    { key: '10', title: 'Hashi Japonês', emoji: '🥢' },
-    { key: '11', title: 'Controle Video game', emoji: '🎮' },
-    { key: '12', title: 'Estátua do Imalaia', emoji: '🗿' },
-    { key: '13', title: 'Estátua da Liberdade', emoji: '🗽' },
-    { key: '14', title: 'Bandeira do Brasil', emoji: '🇧🇷' },
-    { key: '15', title: 'Café', emoji: '☕️' },
-    { key: '16', title: 'Tridente Mitogia grega', emoji: '🔱' }
+    { key: 1, title: 'Maçã', emoji: '🍎' },
+    { key: 2, title: 'Formando', emoji: '👨🏻‍🎓' },
+    { key: 3, title: 'Formanda', emoji: '👩🏻‍🎓' },
+    { key: 4, title: 'Ábobora', emoji: '🎃' },
+    { key: 5, title: 'Aladin', emoji: '🧞‍♂️' },
+    { key: 6, title: 'Lo-fi', emoji: '🌆' },
+    { key: 7, title: 'Raio', emoji: '⚡' },
+    { key: 8, title: 'Jacaré', emoji: '🐊' },
+    { key: 9, title: 'Boneco de neve', emoji: '⛄' },
+    { key: 10, title: 'Hashi Japonês', emoji: '🥢' },
+    { key: 11, title: 'Controle Video game', emoji: '🎮' },
+    { key: 12, title: 'Estátua do Imalaia', emoji: '🗿' },
+    { key: 13, title: 'Estátua da Liberdade', emoji: '🗽' },
+    { key: 14, title: 'Bandeira do Brasil', emoji: '🇧🇷' },
+    { key: 15, title: 'Café', emoji: '☕️' },
+    { key: 16, title: 'Tridente Mitogia grega', emoji: '🔱' }
 ];
 
 export const categories = [

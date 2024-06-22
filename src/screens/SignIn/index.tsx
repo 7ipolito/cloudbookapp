@@ -25,7 +25,7 @@ type NavigationProps = {
 
 
 export function SignIn() {
-    const {userId,login}=useAuth()
+    const {user,login}=useAuth()
     const navigation = useNavigation<NavigationProps>();
 
     function handleStart() {
@@ -34,20 +34,14 @@ export function SignIn() {
 
     async function handleCreateAccount(){
         const response= await api.post("/users", {
-            name:"User",
-            emoji:1
+            name:"Allan Hipolito",
+            emoji:7
           });
     
-          console.log(response.data)
-          login(response.data.id)
-          console.log(userId)
+          console.log({"emoji": 7, "id": 41, "name": "Allan Hipolito", "photo": ""})
+          login(response.data)
           handleStart()
           
-    }
-    
-
-    async function initializer() {
-      api.get('/')
     }
 
     return (
