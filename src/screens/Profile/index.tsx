@@ -26,6 +26,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import theme from '../../global/theme';
+import { useAuth } from '../../hooks/useAuth';
 
 export function Profile({ navigation }: any) {
     const [emoji, setEmoji] = useState({
@@ -33,6 +34,7 @@ export function Profile({ navigation }: any) {
         title: 'Bandeira do Brasil',
         emoji: '🇧🇷'
     });
+    const {logout} = useAuth()
 
     const [nameUser, setNameUser] = useState('User');
     const [ImageUser, setImageUser] = useState('');
@@ -66,6 +68,10 @@ export function Profile({ navigation }: any) {
 
     function handleGoBack() {
         navigation.goBack();
+    }
+
+    function handleLogout(){
+        logout()
     }
 
     async function handleSave() {
@@ -128,7 +134,10 @@ export function Profile({ navigation }: any) {
                             <IconBack name="arrow-back" />
                         </BackButton>
                         <Title>Meu Perfil</Title>
-                        <IconExit name="power" />
+                        <BackButton onPress={handleLogout}>
+                            <IconExit name="power" />
+                        </BackButton>
+                       
                     </Header>
 
                     <Form>
