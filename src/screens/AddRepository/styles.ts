@@ -33,7 +33,15 @@ export const TargetCamera = styled(Feather)`
     font-size: ${RFValue(20)}px;
 `;
 
+export const FooterContainer = styled.View`
+    flex:1;
+    align-items: center;
+    
+`;
+
+
 export const Footer = styled.View`
     align-items: center;
-    margin-top: ${RFValue(230)}px;
+    position: absolute;
+    bottom: 20px;
 `;

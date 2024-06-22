@@ -20,7 +20,7 @@ export const Header = styled.View`
 export const Text = styled.Text`
     width: ${RFValue(150)}px;
     margin-left: 24px;
-    font-size: ${RFValue(20)}px;
+    font-size: ${RFValue(16)}px;
     color: ${({ theme }) => theme.colors.shape};
     font-family: ${({ theme }) => theme.fonts.medium};
 `;

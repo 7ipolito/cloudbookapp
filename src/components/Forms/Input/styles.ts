@@ -31,8 +31,15 @@ export const Icon = styled(Ionicons)`
 `;
 
 export const Error = styled.Text`
+    
+    margin-left: 16px;
+    margin-bottom: 8px;
+    
     font-size: ${RFValue(14)}px;
-    margin-right: 90px;
     font-family: ${({ theme }) => theme.fonts.regular};
     color: ${({ theme }) => theme.colors.attention};
 `;
+
+export const ErrorContainer = styled.View`
+    width: 100%;
+`

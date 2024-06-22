@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextInputProps } from 'react-native';
-import { Container, Error, Icon, InputText } from './styles';
+import { Container, Error, ErrorContainer, Icon, InputText } from './styles';
 
 interface Props extends TextInputProps {
     icon: string;
@@ -14,7 +14,7 @@ export function Input({ icon, error, ...rest }: Props) {
                 <Icon name={icon} />
                 <InputText {...rest} />
             </Container>
-            {error && <Error>{error}</Error>}
+            {error && <ErrorContainer><Error>{error}</Error></ErrorContainer>}
         </>
     );
 }

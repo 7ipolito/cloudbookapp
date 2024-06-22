@@ -11,7 +11,7 @@ export const Container = styled.View`
 export const Header = styled.View`
     width: 100%;
     height: ${RFValue(56)}px;
-    margin-top: 68px;
+    margin-top: 8px;
 
     flex-direction: row;
     justify-content: space-between;

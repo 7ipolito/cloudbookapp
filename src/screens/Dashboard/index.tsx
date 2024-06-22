@@ -1,12 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Alert, LogBox, ActivityIndicator } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { FabButton } from '../../components/FabButton';
 import { Repository, RepositoryProps } from '../../components/Repository';
 import {
     cloudbookPath,
+    emojis,
     options,
     repositoriesImagesPath
 } from '../../utils/options';
@@ -36,49 +37,30 @@ import {
 import { usePath } from '../../hooks/usePath';
 import theme from '../../global/theme';
 import { Card } from '../../components/Card';
+import { useAuth } from '../../hooks/useAuth';
 
 export interface DataListProps extends RepositoryProps {
     id: string;
 }
 
 export function Dashboard({ navigation }: any) {
+    const {user} = useAuth()
     const [imageUser, setImageUser] = useState('');
 
     //Utilizando Hook
     const { setTitleRepository, setPathRepository, setImagePathTabRepository } =
         usePath();
 
-    const [nameUser, setNameUser] = useState('User');
     const [repositories, setRepositories] = useState<DataListProps[]>([]);
-    const [emoji, setEmoji] = useState({
-        key: '14',
-        title: 'Bandeira do Brasil',
-        emoji: '🇧🇷'
-    });
+    const [emoji, setEmoji] = useState(emojis.find(e=>e.key==user?.emoji));
     const [isLoading, setIsLoading] = useState(true);
 
-    async function getData() {
-        try {
-            const imageUser = await AsyncStorage.getItem('imageUser');
-
-            const nameUser = await AsyncStorage.getItem('nameUser');
-
-            const emojiUser = await AsyncStorage.getItem('emojiUser');
-
-            const currentEmoji = emojiUser ? JSON.parse(emojiUser) : [];
-
-            setImageUser(imageUser || '');
-            setNameUser(nameUser || 'User');
-            if (currentEmoji.emoji) {
-                setEmoji(currentEmoji);
-            }
+    useEffect(() => {
+        // Verifica se userId está disponível
+        if (user?.id !== null) {
             setIsLoading(false);
-        } catch (error) {
-            console.log(error);
-            setIsLoading(false);
-            return Alert.alert('Erro reinicie a aplicação');
         }
-    }
+    }, [user?.id]);
 
     function handleAddImage() {
         navigation.navigate('AddImage');
@@ -107,77 +89,77 @@ export function Dashboard({ navigation }: any) {
         navigation.navigate('Subjects');
     }
 
-    function handleDeleteRepository(path: string, title: string) {
-        return Alert.alert(
-            'Deletar ' + title,
-            'Tem certeza que deseja deletar este repósitorio ?',
-            [
-                {
-                    text: 'Deletar',
-                    onPress: () => {
-                        navigation.navigate('AddImageInContent');
-                    }
-                },
-                {
-                    text: 'Cancelar',
-                    onPress: () => {}
-                }
-            ]
-        );
-    }
+    // function handleDeleteRepository(path: string, title: string) {
+    //     return Alert.alert(
+    //         'Deletar ' + title,
+    //         'Tem certeza que deseja deletar este repósitorio ?',
+    //         [
+    //             {
+    //                 text: 'Deletar',
+    //                 onPress: () => {
+    //                     navigation.navigate('AddImageInContent');
+    //                 }
+    //             },
+    //             {
+    //                 text: 'Cancelar',
+    //                 onPress: () => {}
+    //             }
+    //         ]
+    //     );
+    // }
 
-    async function listRepositories() {
-        const folders: any = [];
+    // async function listRepositories() {
+    //     const folders: any = [];
 
-        const repositories: DataListProps[] = [];
-        folders.map(
-            async (folder: {
-                name: string;
-                mtime: number | Date | undefined;
-                path: any;
-            }) => {
-                const nameImageFormatted = folder.name.substring(
-                    folder.name.indexOf('|') + 1
-                );
-                const nameRepositoryFormatted = folder.name.substring(
-                    0,
-                    folder.name.indexOf('|')
-                );
+    //     const repositories: DataListProps[] = [];
+    //     folders.map(
+    //         async (folder: {
+    //             name: string;
+    //             mtime: number | Date | undefined;
+    //             path: any;
+    //         }) => {
+    //             const nameImageFormatted = folder.name.substring(
+    //                 folder.name.indexOf('|') + 1
+    //             );
+    //             const nameRepositoryFormatted = folder.name.substring(
+    //                 0,
+    //                 folder.name.indexOf('|')
+    //             );
 
-                const dirItens = [];
-                const countSubjects = dirItens.length;
+    //             const dirItens = [];
+    //             const countSubjects = dirItens.length;
 
-                if (folder.name != 'images') {
-                    repositories.push({
-                        id: String(uuid.v4()),
-                        date: Intl.DateTimeFormat('pt-BR', {
-                            day: '2-digit',
-                            month: 'narrow',
-                            year: 'numeric'
-                        }).format(folder.mtime),
-                        image:
-                            'file://' +
-                            repositoriesImagesPath +
-                            '/' +
-                            nameImageFormatted +
-                            '.jpg',
-                        number_subjects: countSubjects,
-                        title: nameRepositoryFormatted,
-                        pathRepository: folder.path
-                    });
-                    setRepositories(repositories);
-                }
-            }
-        );
+    //             if (folder.name != 'images') {
+    //                 repositories.push({
+    //                     id: String(uuid.v4()),
+    //                     date: Intl.DateTimeFormat('pt-BR', {
+    //                         day: '2-digit',
+    //                         month: 'narrow',
+    //                         year: 'numeric'
+    //                     }).format(folder.mtime),
+    //                     image:
+    //                         'file://' +
+    //                         repositoriesImagesPath +
+    //                         '/' +
+    //                         nameImageFormatted +
+    //                         '.jpg',
+    //                     number_subjects: countSubjects,
+    //                     title: nameRepositoryFormatted,
+    //                     pathRepository: folder.path
+    //                 });
+    //                 setRepositories(repositories);
+    //             }
+    //         }
+    //     );
 
-        setIsLoading(false);
-    }
+    //     setIsLoading(false);
+    // }
 
     useFocusEffect(
         useCallback(() => {
             LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-            getData();
-            listRepositories();
+            // getData();
+            // listRepositories();
         }, [])
     );
 
@@ -188,19 +170,20 @@ export function Dashboard({ navigation }: any) {
                     <Header>
                         <Text>
                             Bem vindo(a),{'\n'}
-                            <NameUser>{nameUser}</NameUser>
+                            <NameUser>{user?.name}</NameUser>
                         </Text>
                         <EmojiButton>
-                            <Emoji>{emoji.emoji}</Emoji>
+                            <Emoji>{emoji?.emoji}</Emoji>
                         </EmojiButton>
 
                         <PhotoButton onPress={handleChangeProfile}>
-                            {imageUser === '' ? (
+                            {user?.photo? (
+                                 <Photo source={{ uri: user?.photo }} />
+                               
+                            ) : (
                                 <Photo
                                     source={require('../../assets/404_profile.png')}
                                 />
-                            ) : (
-                                <Photo source={{ uri: imageUser }} />
                             )}
                         </PhotoButton>
                     </Header>
