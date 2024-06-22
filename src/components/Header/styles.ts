@@ -5,7 +5,7 @@ import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
 export const Container = styled.View`
     width: 100%;
     height: ${RFValue(76)}px;
-    margin-top: 46px;
+    margin-top: 16px;
 
     flex-direction: row;
     justify-content: space-between;

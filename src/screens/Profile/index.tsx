@@ -13,7 +13,8 @@ import {
     Footer,
     IconBack,
     IconExit,
-    LoadContainer
+    LoadContainer,
+    FooterContainer
 } from './styles';
 
 import { Input } from '../../components/Forms/Input';
@@ -55,11 +56,11 @@ export function Profile({ navigation }: any) {
             quality: 1
         });
 
-        if (result.cancelled) {
+        if (result.canceled) {
             console.log(result);
         } else {
             setImageSelected(true);
-            setImageUser(result.uri || '');
+            setImageUser(result.assets[0].uri || '');
         }
     };
 
@@ -124,7 +125,7 @@ export function Profile({ navigation }: any) {
                 <>
                     <Header>
                         <BackButton onPress={handleGoBack}>
-                            <IconBack name="md-arrow-back" />
+                            <IconBack name="arrow-back" />
                         </BackButton>
                         <Title>Meu Perfil</Title>
                         <IconExit name="power" />
@@ -159,13 +160,14 @@ export function Profile({ navigation }: any) {
                             onPress={handleOpenSelectEmojiModal}
                         />
                     </Form>
-
-                    <Footer>
-                        <Button
-                            title="Confirmar mudanças"
-                            onPress={handleSave}
-                        />
-                    </Footer>
+                    <FooterContainer>
+                        <Footer>
+                            <Button
+                                title="Confirmar mudanças"
+                                onPress={handleSave}
+                            />
+                        </Footer>
+                    </FooterContainer>
 
                     <Modal
                         statusBarTranslucent

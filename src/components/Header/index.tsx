@@ -25,7 +25,7 @@ export function Header({ title, image, type }: Props) {
     return (
         <Container>
             <BackButton onPress={handleGoBack}>
-                <IconBack name="md-arrow-back" />
+                <IconBack name="arrow-back" />
             </BackButton>
             <Title>{title}</Title>
 

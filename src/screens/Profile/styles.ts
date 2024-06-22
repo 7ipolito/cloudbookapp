@@ -12,7 +12,7 @@ export const Container = styled.View`
 export const Header = styled.View`
     width: 100%;
     height: ${RFValue(56)}px;
-    margin-top: 68px;
+    margin-top: 40px;
 
     flex-direction: row;
     justify-content: space-between;
@@ -64,9 +64,16 @@ export const TargetCamera = styled(Feather)`
     color: ${({ theme }) => theme.colors.primary};
 `;
 
+export const FooterContainer = styled.View`
+flex:1;
+align-items: center;
+`
 export const Footer = styled.View`
-    align-items: center;
-    margin-top: ${RFValue(170)}px;
+    
+    position: absolute;
+    bottom:20px;
+    
+    /* margin-top: ${RFValue(130)}px; */
 `;
 export const LoadContainer = styled.View`
     flex: 1%;

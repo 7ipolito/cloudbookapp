@@ -7,7 +7,8 @@ import {
     ChangePhoto,
     CircleCamera,
     TargetCamera,
-    Footer
+    Footer,
+    FooterContainer
 } from './styles';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
@@ -87,11 +88,11 @@ export function AddRepository({ navigation }: any) {
             quality: 1
         });
 
-        if (result.cancelled) {
+        if (result.canceled) {
             console.log(result);
         } else {
             setImageSelected(true);
-            setImageURI(result!.uri || '');
+            setImageURI(result.assets[0].uri || '');
         }
     };
 
@@ -125,10 +126,11 @@ export function AddRepository({ navigation }: any) {
                 placeholder="Nome do repositório"
                 placeholderTextColor="#666360"
             />
-
-            <Footer>
-                <Button title="Salvar" onPress={handleSubmit(handleSave)} />
-            </Footer>
+            <FooterContainer>
+                <Footer>
+                    <Button title="Salvar" onPress={handleSubmit(handleSave)} />
+                </Footer>
+            </FooterContainer>
         </Container>
     );
 }
