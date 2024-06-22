@@ -44,8 +44,8 @@ export interface DataListProps extends RepositoryProps {
 }
 
 export function Dashboard({ navigation }: any) {
-    const [imageUser, setImageUser] = useState('');
     const {user} = useAuth()
+    const [imageUser, setImageUser] = useState('');
 
     //Utilizando Hook
     const { setTitleRepository, setPathRepository, setImagePathTabRepository } =
@@ -177,12 +177,13 @@ export function Dashboard({ navigation }: any) {
                         </EmojiButton>
 
                         <PhotoButton onPress={handleChangeProfile}>
-                            {imageUser === '' ? (
+                            {user?.photo? (
+                                 <Photo source={{ uri: user?.photo }} />
+                               
+                            ) : (
                                 <Photo
                                     source={require('../../assets/404_profile.png')}
                                 />
-                            ) : (
-                                <Photo source={{ uri: user?.photo }} />
                             )}
                         </PhotoButton>
                     </Header>

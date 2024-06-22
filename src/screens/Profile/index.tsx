@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import {
     Header,
@@ -14,39 +14,44 @@ import {
     IconBack,
     IconExit,
     LoadContainer,
-    FooterContainer
+    FooterContainer,
+    LoadUploadContainer
 } from './styles';
 
 import { Input } from '../../components/Forms/Input';
 import { SelectButton } from '../../components/SelectButton';
 import { ActivityIndicator, Alert, Modal } from 'react-native';
-import { SelectEmoji } from '../SelectEmoji';
+import { Emoji, SelectEmoji } from '../SelectEmoji';
 import { Button } from '../../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import theme from '../../global/theme';
 import { useAuth } from '../../hooks/useAuth';
+import { emojis } from '../../utils/options';
+import { api } from '../../api/axios';
 
 
 
 export function Profile({ navigation }: any) {
- 
-    
-    const [emoji, setEmoji] = useState({
-        key: '14',
-        title: 'Bandeira do Brasil',
-        emoji: '🇧🇷'
-    });
-    const {logout} = useAuth()
+    const {logout, user,login} = useAuth()
 
-    const [nameUser, setNameUser] = useState('User');
-    const [ImageUser, setImageUser] = useState('');
+     const findEmoji = emojis.find(e=>e.key==user?.emoji);
+     const [emoji, setEmoji] = useState<Emoji>(findEmoji!);
+
+
+    const [nameUser, setNameUser] = useState(user?.name);
+    const [imageUser, setImageUser] = useState('');
     const [errorInput, setErrorInput] = useState('');
     const [imageSelected, setImageSelected] = useState(false);
 
     const [emojiModalOpen, setEmojiModalOpen] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingUpload, setIsLoadingUpload] = useState(false);
+
+    useEffect(()=>{
+        console.log(imageUser)
+    },[imageUser])
 
     function handleCloseSelectEmojiModal() {
         setEmojiModalOpen(false);
@@ -65,8 +70,9 @@ export function Profile({ navigation }: any) {
         if (result.canceled) {
             console.log(result);
         } else {
-            setImageSelected(true);
-            setImageUser(result.assets[0].uri || '');
+            setIsLoadingUpload(true)
+            await handleChangePhotoProfile(result.assets[0].uri)
+         
         }
     };
 
@@ -79,15 +85,45 @@ export function Profile({ navigation }: any) {
         navigation.navigate("SignIn")
     }
 
+    async function handleChangePhotoProfile(uriFile:string){
+    try {
+     
+        const formData = new FormData();
+        formData.append('file', {
+          uri: uriFile,
+          type: 'image/jpeg', // ou image/png dependendo do formato da sua imagem
+          name: 'photoUser.jpg',
+        });
+      const response = await api.post(`/users/${user?.id}/upload`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });             
+      console.log(response.data.url)
+            setImageUser(response.data.photo)
+            setImageSelected(true);
+            setIsLoadingUpload(false)
+
+    //   return response.data.url
+        } catch (error) {
+            setIsLoadingUpload(false)
+
+
+            console.log(error)
+        } 
+    }
+
     async function handleSave() {
         setErrorInput('');
-        if (!nameUser) return setErrorInput('Preenchimento Obrigátorio');
+        if (nameUser=='') return setErrorInput('Preenchimento Obrigátorio');
 
         try {
-            await AsyncStorage.setItem('imageUser', ImageUser);
-            await AsyncStorage.setItem('nameUser', nameUser);
-            await AsyncStorage.setItem('emojiUser', JSON.stringify(emoji));
-
+            const response = await api.put(`/users/${user?.id}`, {
+                name: nameUser,
+                emoji: emoji?.key,
+                photo:imageUser
+              });
+              login(response.data)
             navigation.navigate('Dashboard');
         } catch (error) {
             console.log(error);
@@ -95,38 +131,38 @@ export function Profile({ navigation }: any) {
         }
     }
 
-    async function getData() {
-        try {
-            const nameUser = await AsyncStorage.getItem('nameUser');
+    // async function getData() {
+    //     try {
+    //         const nameUser = await AsyncStorage.getItem('nameUser');
 
-            const emojiUser = await AsyncStorage.getItem('emojiUser');
+    //         const emojiUser = await AsyncStorage.getItem('emojiUser');
 
-            const imageUser = await AsyncStorage.getItem('imageUser');
+    //         const imageUser = await AsyncStorage.getItem('imageUser');
 
-            const currentEmoji = emojiUser ? JSON.parse(emojiUser) : '';
+    //         const currentEmoji = emojiUser ? JSON.parse(emojiUser) : '';
 
-            setImageUser(imageUser || '');
-            if (imageUser != null && imageUser != '') {
-                setImageSelected(true);
-            }
+    //         setImageUser(imageUser || '');
+    //         if (imageUser != null && imageUser != '') {
+    //             setImageSelected(true);
+    //         }
 
-            setNameUser(nameUser || 'User');
+    //         setNameUser(nameUser || 'User');
 
-            if (currentEmoji.emoji) {
-                setEmoji(currentEmoji);
-            }
+    //         if (currentEmoji.emoji) {
+    //             setEmoji(currentEmoji);
+    //         }
 
-            setIsLoading(false);
-        } catch (error) {
-            console.log(error);
-            setIsLoading(false);
-            return Alert.alert('Erro ao salvar');
-        }
-    }
+    //         setIsLoading(false);
+    //     } catch (error) {
+    //         console.log(error);
+    //         setIsLoading(false);
+    //         return Alert.alert('Erro ao salvar');
+    //     }
+    // }
 
     useFocusEffect(
         useCallback(() => {
-            getData();
+            // getData();
         }, [])
     );
 
@@ -146,19 +182,32 @@ export function Profile({ navigation }: any) {
                     </Header>
 
                     <Form>
-                        <ChangePhoto onPress={handleGallery}>
+                        {!isLoadingUpload ? (<ChangePhoto onPress={handleGallery}>
                             {imageSelected ? (
-                                <Photo source={{ uri: ImageUser }} />
+                                <Photo source={{ uri: imageUser }} />
                             ) : (
-                                <Photo
+                                user?.photo ?(
+                                    <Photo
+                                    source={{uri:user?.photo}}
+                                />
+                                ):(
+                                    <Photo
                                     source={require('../../assets/404_profile.png')}
                                 />
+                                )
                             )}
 
                             <CircleCamera onPress={handleGallery}>
                                 <TargetCamera name="camera" />
                             </CircleCamera>
-                        </ChangePhoto>
+                        </ChangePhoto>):(
+                            <LoadUploadContainer>
+                                <ActivityIndicator
+                                    size="large"
+                                    color={theme.colors.shape}
+                                />
+                            </LoadUploadContainer>
+                        )}
 
                         <Input
                             icon="person-outline"
@@ -169,8 +218,8 @@ export function Profile({ navigation }: any) {
                         />
 
                         <SelectButton
-                            title={emoji.title}
-                            emoji={emoji.emoji}
+                            title={emoji?.title}
+                            emoji={emoji?.emoji}
                             onPress={handleOpenSelectEmojiModal}
                         />
                     </Form>

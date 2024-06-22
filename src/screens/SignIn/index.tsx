@@ -9,7 +9,8 @@ import {
     Title,
     SignInTitle,
     Footer,
-    FooterWrapper
+    FooterWrapper,
+    LogoContainer
 } from './styles';
 import { SignInSocialButton } from '../../components/SignInSocialButton';
 import { useNavigation } from '@react-navigation/native';
@@ -38,7 +39,7 @@ export function SignIn() {
             emoji:7
           });
     
-          console.log({"emoji": 7, "id": 41, "name": "Allan Hipolito", "photo": ""})
+          console.log(response.data)
           login(response.data)
           handleStart()
           
@@ -48,7 +49,9 @@ export function SignIn() {
         <Container>
             <Header>
                 <TitleWrapper>
-                    <LogoIcon  />
+                    <LogoContainer>
+                        <LogoIcon  />
+                    </LogoContainer>
 
                     <Title>
                         Organize seus estudos{'\n'}

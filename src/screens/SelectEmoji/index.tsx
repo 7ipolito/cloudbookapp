@@ -15,8 +15,8 @@ import {
     Title
 } from './styles';
 
-interface Emoji {
-    key: string;
+export interface Emoji {
+    key: number;
     title: string;
     emoji: string;
 }
@@ -46,7 +46,7 @@ export function SelectEmoji({ emoji, setEmoji, closeSelectEmoji }: Props) {
                 <FlatList
                     data={emojis}
                     style={{ flex: 1, width: '100%' }}
-                    keyExtractor={(item) => item.key}
+                    keyExtractor={(item) => String(item.key)}
                     renderItem={({ item }) => (
                         <Category
                             onPress={() => handleEmojiSelect(item)}

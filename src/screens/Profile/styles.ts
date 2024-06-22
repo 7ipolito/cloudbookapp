@@ -80,4 +80,8 @@ export const LoadContainer = styled.View`
     justify-content: center;
     align-items: center;
 `;
+
+export const LoadUploadContainer = styled.View`
+    margin-bottom: 16px;
+`;
 export const BackButton = styled(BorderlessButton)``;
