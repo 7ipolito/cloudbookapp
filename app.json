@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Cloudbook",
-    "slug": "Cloudbook",
+    "slug": "cloudbook",
     "scheme": "br.com.cloudbook",
     "version": "1.0.0",
     "assetBundlePatterns": [
@@ -9,7 +9,21 @@
     ],
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "735247a4-5f0a-4bb4-b19a-0bc7d29daae6"
+      }
+    },
+    "owner": "hipolito2003",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/735247a4-5f0a-4bb4-b19a-0bc7d29daae6"
+    },
+    "android": {},
+    "ios": {}
   },
   "name": "Cloudbook"
 }
