@@ -1,8 +1,10 @@
 # Cloudbook
+### The beta version of the project is available [follow link](https://drive.google.com/file/d/1QJkF6yuLCVfN8b3xMBF_UiKoajPBNDBp/view?usp=drive_link)
+
 <img loading="lazy" src="http://img.shields.io/static/v1?label=STATUS&message=DEVELOPMENT&color=BLUE&style=for-the-badge"/>
+<img loading="lazy" src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white"/>
 
 Welcome to cloudbookapp repository 📚
-
 
 ## Table of Contents
 
@@ -16,6 +18,8 @@ Welcome to cloudbookapp repository 📚
 ## Introduction
 
 This application was created by me Allan hipólito and have with goal save contents that can be text or image(For now) in a way more practical and organized.
+
+
 ## Technologies Used
 
 ### Frontend
