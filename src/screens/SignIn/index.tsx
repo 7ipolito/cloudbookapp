@@ -35,7 +35,7 @@ export function SignIn() {
 
     async function handleCreateAccount(){
         const response= await api.post("/users", {
-            name:"Allan Hipolito",
+            name:"User",
             emoji:7
           });
     
@@ -54,22 +54,22 @@ export function SignIn() {
                     </LogoContainer>
 
                     <Title>
-                        Organize seus estudos{'\n'}
-                        de forma {'\n'}
-                        simples e linda!
+                    Organize your studies{'\n'}
+                    so 
+                    simple and beautiful!
                     </Title>
                 </TitleWrapper>
 
                 <SignInTitle>
-                    Inicie a imersão{'\n'}
-                    clicando no botão abaixo
+                    Start the immersion{'\n'}
+                    clicking the button below
                 </SignInTitle>
             </Header>
 
             <Footer>
                 <FooterWrapper>
                     <SignInSocialButton
-                        title="Iniciar imersão"
+                        title="Start immersion"
                         onPress={handleCreateAccount}
                     />
                 </FooterWrapper>

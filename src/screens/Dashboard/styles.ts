@@ -34,7 +34,7 @@ export const TextNotRepository = styled.Text`
     color: ${({ theme }) => theme.colors.shape};
     font-family: ${({ theme }) => theme.fonts.medium};
     margin-top: 7px;
-    font-size: ${RFValue(24)}px;
+    font-size: ${RFValue(20)}px;
 `;
 
 export const EmojiButton = styled(BorderlessButton)``;

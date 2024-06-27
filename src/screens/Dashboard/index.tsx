@@ -44,6 +44,8 @@ export interface DataListProps extends RepositoryProps {
 }
 
 export function Dashboard({ navigation }: any) {
+
+    
     const {user} = useAuth()
     const [imageUser, setImageUser] = useState('');
 
@@ -60,7 +62,8 @@ export function Dashboard({ navigation }: any) {
         if (user?.id !== null) {
             setIsLoading(false);
         }
-    }, [user?.id]);
+        setEmoji(emojis.find(e=>e.key==user?.emoji))
+    }, [user]);
 
     function handleAddImage() {
         navigation.navigate('AddImage');
@@ -75,7 +78,7 @@ export function Dashboard({ navigation }: any) {
     }
 
     function handleNavigate(nameScreen: string) {
-        return Alert.alert('Funcionalidade não implementada');
+        return Alert.alert('Functionality not implemented');
     }
 
     function handleGoSubjects(
@@ -169,7 +172,7 @@ export function Dashboard({ navigation }: any) {
                 <ScrollView>
                     <Header>
                         <Text>
-                            Bem vindo(a),{'\n'}
+                           Welcome,{'\n'}
                             <NameUser>{user?.name}</NameUser>
                         </Text>
                         <EmojiButton>
@@ -230,7 +233,7 @@ export function Dashboard({ navigation }: any) {
                                 color={theme.colors.primary}
                             />
                             <TextNotRepository>
-                                Não há repositórios
+                            There are no repositories
                             </TextNotRepository>
                         </WhithoutRepositoryContent>
                     )}

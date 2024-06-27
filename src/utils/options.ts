@@ -5,35 +5,36 @@ import { StatsIcon } from "../assets/icons/Stats";
 
 
 export const options = [
-    { key: '1', title: 'Foto', icon: PhotoIcon, screen: 'AddImage' },
+    { key: '1', title: 'Photo', icon: PhotoIcon, screen: 'AddImage' },
     {
         key: '2',
-        title: 'Anotação',
+        title: 'Annotation',
         icon: AnnotationIcon,
         screen: 'AddAnnotation'
     },
-    { key: '3', title: 'Áudio', icon: AudioIcon, screen: '' },
-    { key: '4', title: 'Estatísticas', icon: StatsIcon, screen: '' }
+    { key: '3', title: 'Audio', icon: AudioIcon, screen: '' },
+    { key: '4', title: 'Stats', icon: StatsIcon, screen: '' }
 ];
 
 export const emojis = [
-    { key: 1, title: 'Maçã', emoji: '🍎' },
-    { key: 2, title: 'Formando', emoji: '👨🏻‍🎓' },
-    { key: 3, title: 'Formanda', emoji: '👩🏻‍🎓' },
-    { key: 4, title: 'Ábobora', emoji: '🎃' },
-    { key: 5, title: 'Aladin', emoji: '🧞‍♂️' },
-    { key: 6, title: 'Lo-fi', emoji: '🌆' },
-    { key: 7, title: 'Raio', emoji: '⚡' },
-    { key: 8, title: 'Jacaré', emoji: '🐊' },
-    { key: 9, title: 'Boneco de neve', emoji: '⛄' },
-    { key: 10, title: 'Hashi Japonês', emoji: '🥢' },
-    { key: 11, title: 'Controle Video game', emoji: '🎮' },
-    { key: 12, title: 'Estátua do Imalaia', emoji: '🗿' },
-    { key: 13, title: 'Estátua da Liberdade', emoji: '🗽' },
-    { key: 14, title: 'Bandeira do Brasil', emoji: '🇧🇷' },
-    { key: 15, title: 'Café', emoji: '☕️' },
-    { key: 16, title: 'Tridente Mitogia grega', emoji: '🔱' }
+    { key: 1, title: 'Apple', emoji: '🍎' },
+    { key: 2, title: 'Graduate Man', emoji: '👨🏻‍🎓' },
+    { key: 3, title: 'Graduate Woman', emoji: '👩🏻‍🎓' },
+    { key: 4, title: 'Pumpkin', emoji: '🎃' },
+    { key: 5, title: 'Genie', emoji: '🧞‍♂️' },
+    { key: 6, title: 'Cityscape at Dusk', emoji: '🌆' },
+    { key: 7, title: 'Lightning Bolt', emoji: '⚡' },
+    { key: 8, title: 'Crocodile', emoji: '🐊' },
+    { key: 9, title: 'Snowman', emoji: '⛄' },
+    { key: 10, title: 'Chopsticks', emoji: '🥢' },
+    { key: 11, title: 'Video Game Controller', emoji: '🎮' },
+    { key: 12, title: 'Moai Statue', emoji: '🗿' },
+    { key: 13, title: 'Statue of Liberty', emoji: '🗽' },
+    { key: 14, title: 'Flag of Brazil', emoji: '🇧🇷' },
+    { key: 15, title: 'Hot Beverage', emoji: '☕️' },
+    { key: 16, title: 'Trident', emoji: '🔱' }
 ];
+
 
 export const categories = [
     { key: '1', title: 'Matématica', emoji: '🍎' },
