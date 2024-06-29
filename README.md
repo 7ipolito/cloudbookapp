@@ -1,8 +1,12 @@
 # Cloudbook
+<img loading="lazy" src="https://github.com/7ipolito/cloudbookapp/assets/45522944/ec24a1e2-c7b9-44bc-8ef3-e19c67866b66" width="200px"/>
+
 ### The beta version of the project is available [follow link](https://drive.google.com/file/d/1QJkF6yuLCVfN8b3xMBF_UiKoajPBNDBp/view?usp=drive_link)
+
 
 <img loading="lazy" src="http://img.shields.io/static/v1?label=STATUS&message=DEVELOPMENT&color=BLUE&style=for-the-badge"/>
 <img loading="lazy" src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white"/>
+
 
 Welcome to cloudbookapp repository 📚
 
