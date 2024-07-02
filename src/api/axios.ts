@@ -1,5 +1,5 @@
 import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: 'http://10.0.0.105:3000/'
+  baseURL: 'https://cloudbook-backend-production-1a6a.up.railway.app/'
 });

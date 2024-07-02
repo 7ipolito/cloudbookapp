@@ -62,7 +62,7 @@ export function SelectEmoji({ emoji, setEmoji, closeSelectEmoji }: Props) {
 
                 <Footer>
                     <Button
-                        title="Selecionar Emoji"
+                        title="Select Emoji"
                         onPress={closeSelectEmoji}
                     />
                 </Footer>

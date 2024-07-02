@@ -6,7 +6,7 @@ import styled from 'styled-components/native';
 export const Container = styled(RectButton)`
     width: ${RFValue(65)}px;
     height: ${RFValue(65)}px;
-    border-radius: 40px;
+    border-radius: ${RFValue(32)}px;
     background-color: ${({ theme }) => theme.colors.primary};
 
     align-items: center;

@@ -115,7 +115,7 @@ export function Profile({ navigation }: any) {
 
     async function handleSave() {
         setErrorInput('');
-        if (nameUser=='') return setErrorInput('Preenchimento Obrigátorio');
+        if (nameUser=='') return setErrorInput('Mandatory Filling');
 
         try {
             const response = await api.put(`/users/${user?.id}`, {
@@ -174,7 +174,7 @@ export function Profile({ navigation }: any) {
                         <BackButton onPress={handleGoBack}>
                             <IconBack name="arrow-back" />
                         </BackButton>
-                        <Title>Meu Perfil</Title>
+                        <Title>My profile</Title>
                         <BackButton onPress={handleLogout}>
                             <IconExit name="power" />
                         </BackButton>
@@ -226,7 +226,7 @@ export function Profile({ navigation }: any) {
                     <FooterContainer>
                         <Footer>
                             <Button
-                                title="Confirmar mudanças"
+                                title="Confirm changes"
                                 onPress={handleSave}
                             />
                         </Footer>

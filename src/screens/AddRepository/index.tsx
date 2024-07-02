@@ -30,7 +30,7 @@ interface FormData {
 }
 
 const schema = yup.object().shape({
-    repository: yup.string().required('Preenchimento obrigatório')
+    repository: yup.string().required('Mandatory Filling')
 });
 
 export function AddRepository({ navigation }: any) {
@@ -98,7 +98,7 @@ export function AddRepository({ navigation }: any) {
 
     return (
         <Container>
-            <Header title="Adicionar Repositório" type="addContent" />
+            <Header title="Create Repository" type="addContent" />
 
             <ChangePhoto onPress={handleGallery}>
                 {imageSelected ? (
@@ -123,12 +123,12 @@ export function AddRepository({ navigation }: any) {
                 maxLength={18}
                 autoCapitalize="sentences"
                 error={errors.repository && errors.repository.message}
-                placeholder="Nome do repositório"
+                placeholder="Name of repository"
                 placeholderTextColor="#666360"
             />
             <FooterContainer>
                 <Footer>
-                    <Button title="Salvar" onPress={handleSubmit(handleSave)} />
+                    <Button title="Save" onPress={handleSubmit(handleSave)} />
                 </Footer>
             </FooterContainer>
         </Container>
