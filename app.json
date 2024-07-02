@@ -22,8 +22,12 @@
     "updates": {
       "url": "https://u.expo.dev/735247a4-5f0a-4bb4-b19a-0bc7d29daae6"
     },
-    "android": {},
-    "ios": {}
+    "android": {
+      "package": "com.hipolito2003.cloudbook"
+    },
+    "ios": {
+      "bundleIdentifier": "com.hipolito2003.cloudbook"
+    }
   },
   "name": "Cloudbook"
 }
