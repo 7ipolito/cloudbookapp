@@ -31,14 +31,14 @@ import { useAuth } from '../../hooks/useAuth';
 import { emojis } from '../../utils/options';
 import { api } from '../../api/axios';
 
-
-
-export function Profile({ navigation }: any) {
-    const {logout, user,login} = useAuth()
-
-     const findEmoji = emojis.find(e=>e.key==user?.emoji);
-     const [emoji, setEmoji] = useState<Emoji>(findEmoji!);
-
+type NavigationProps = {
+    navigate: (screen: string) => void;
+};
+export function Profile() {
+    const { logout, user, login } = useAuth();
+    const navigation = useNavigation<NavigationProps>();
+    const findEmoji = emojis.find((e) => e.key == user?.emoji);
+    const [emoji, setEmoji] = useState<Emoji>(findEmoji!);
 
     const [nameUser, setNameUser] = useState(user?.name);
     const [imageUser, setImageUser] = useState('');
@@ -49,9 +49,9 @@ export function Profile({ navigation }: any) {
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadingUpload, setIsLoadingUpload] = useState(false);
 
-    useEffect(()=>{
-        console.log(imageUser)
-    },[imageUser])
+    useEffect(() => {
+        console.log(imageUser);
+    }, [imageUser]);
 
     function handleCloseSelectEmojiModal() {
         setEmojiModalOpen(false);
@@ -70,9 +70,8 @@ export function Profile({ navigation }: any) {
         if (result.canceled) {
             console.log(result);
         } else {
-            setIsLoadingUpload(true)
-            await handleChangePhotoProfile(result.assets[0].uri)
-         
+            setIsLoadingUpload(true);
+            await handleChangePhotoProfile(result.assets[0].uri);
         }
     };
 
@@ -80,50 +79,51 @@ export function Profile({ navigation }: any) {
         navigation.goBack();
     }
 
-    function handleLogout(){
-        logout()
-        navigation.navigate("SignIn")
+    function handleLogout() {
+        logout();
     }
 
-    async function handleChangePhotoProfile(uriFile:string){
-    try {
-     
-        const formData = new FormData();
-        formData.append('file', {
-          uri: uriFile,
-          type: 'image/jpeg', // ou image/png dependendo do formato da sua imagem
-          name: 'photoUser.jpg',
-        });
-      const response = await api.post(`/users/${user?.id}/upload`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });             
-      console.log(response.data.url)
-            setImageUser(response.data.photo)
+    async function handleChangePhotoProfile(uriFile: string) {
+        try {
+            const formData = new FormData();
+            formData.append('file', {
+                uri: uriFile,
+                type: 'image/jpeg', // ou image/png dependendo do formato da sua imagem
+                name: 'photoUser.jpg'
+            });
+            const response = await api.post(
+                `/users/${user?.id}/upload`,
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            );
+            console.log(response.data.url);
+            setImageUser(response.data.photo);
             setImageSelected(true);
-            setIsLoadingUpload(false)
+            setIsLoadingUpload(false);
 
-    //   return response.data.url
+            //   return response.data.url
         } catch (error) {
-            setIsLoadingUpload(false)
+            setIsLoadingUpload(false);
 
-
-            console.log(error)
-        } 
+            console.log(error);
+        }
     }
 
     async function handleSave() {
         setErrorInput('');
-        if (nameUser=='') return setErrorInput('Mandatory Filling');
+        if (nameUser == '') return setErrorInput('Mandatory Filling');
 
         try {
             const response = await api.put(`/users/${user?.id}`, {
                 name: nameUser,
                 emoji: emoji?.key,
-                photo:imageUser
-              });
-              login(response.data)
+                photo: imageUser
+            });
+            login(response.data);
             navigation.navigate('Dashboard');
         } catch (error) {
             console.log(error);
@@ -178,29 +178,26 @@ export function Profile({ navigation }: any) {
                         <BackButton onPress={handleLogout}>
                             <IconExit name="power" />
                         </BackButton>
-                       
                     </Header>
 
                     <Form>
-                        {!isLoadingUpload ? (<ChangePhoto onPress={handleGallery}>
-                            {imageSelected ? (
-                                <Photo source={{ uri: imageUser }} />
-                            ) : (
-                                user?.photo ?(
+                        {!isLoadingUpload ? (
+                            <ChangePhoto onPress={handleGallery}>
+                                {imageSelected ? (
+                                    <Photo source={{ uri: imageUser }} />
+                                ) : user?.photo ? (
+                                    <Photo source={{ uri: user?.photo }} />
+                                ) : (
                                     <Photo
-                                    source={{uri:user?.photo}}
-                                />
-                                ):(
-                                    <Photo
-                                    source={require('../../assets/404_profile.png')}
-                                />
-                                )
-                            )}
+                                        source={require('../../assets/404_profile.png')}
+                                    />
+                                )}
 
-                            <CircleCamera onPress={handleGallery}>
-                                <TargetCamera name="camera" />
-                            </CircleCamera>
-                        </ChangePhoto>):(
+                                <CircleCamera onPress={handleGallery}>
+                                    <TargetCamera name="camera" />
+                                </CircleCamera>
+                            </ChangePhoto>
+                        ) : (
                             <LoadUploadContainer>
                                 <ActivityIndicator
                                     size="large"

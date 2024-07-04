@@ -26,13 +26,11 @@ type NavigationProps = {
 export function SignIn() {
     const handleDeepLink = async (event: event) => {
         const data: any = Linking.parse(event.url);
-        console.log(data.queryParams);
         const response = await api.post('/auth/login/google', {
             accessToken: data.queryParams.access_token,
             email: data.queryParams.email
         });
 
-        console.log(response.data);
         WebBrowser.dismissBrowser();
 
         login(response.data);
@@ -57,17 +55,6 @@ export function SignIn() {
 
     function handleStart() {
         navigation.navigate('Dashboard');
-    }
-
-    async function handleCreateAccount() {
-        const response = await api.post('/users', {
-            name: 'User',
-            emoji: 7
-        });
-
-        console.log(response.data);
-
-        handleStart();
     }
 
     return (

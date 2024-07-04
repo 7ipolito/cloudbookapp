@@ -17,7 +17,7 @@ import { useAuth } from '../hooks/useAuth';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
-export function AppRoutes() {
+export function AuthRoutes() {
     return (
         <Navigator
             screenOptions={{
@@ -25,28 +25,7 @@ export function AppRoutes() {
                 orientation: 'portrait'
             }}
         >
-            <Screen name="Dashboard" component={Dashboard} />
-
-            <Screen name="Subjects" component={Subjects} />
-
-            <Screen name="Contents" component={Contents} />
-
-            <Screen name="Profile" component={Profile} />
-
-            <Screen name="AddImage" component={AddImage} />
-
-            <Screen name="AddImageInContent" component={AddImageInContent} />
-
-            <Screen name="AddRepository" component={AddRepository} />
-
-            <Screen name="AddSubject" component={AddSubject} />
-
-            <Screen name="AddAnnotation" component={AddAnottation} />
-
-            <Screen
-                name="AddAnnotationInContent"
-                component={AddAnnotationInContent}
-            />
+            <Screen name="SignIn" component={SignIn} />
         </Navigator>
     );
 }
