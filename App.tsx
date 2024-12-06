@@ -17,6 +17,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native';
 import { AuthProvider } from './src/hooks/useAuth';
+import { Routes } from './src/routes';
 export default function App() {
     let [fontsLoaded] = useFonts({
         RobotoSlab_400Regular,
@@ -37,21 +38,19 @@ export default function App() {
                 translucent
             />
             <ThemeProvider theme={theme}>
-                <NavigationContainer>
                 <GestureHandlerRootView style={styles.container}>
                     <SafeAreaView style={styles.container}>
                         <AuthProvider>
-                             <AppRoutes />
+                            <Routes />
                         </AuthProvider>
                     </SafeAreaView>
                 </GestureHandlerRootView>
-                </NavigationContainer>
             </ThemeProvider>
         </>
     );
 }
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-    },
-  });
+        flex: 1
+    }
+});

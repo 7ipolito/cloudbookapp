@@ -29,6 +29,7 @@
         "expo-splash-screen": "~0.27.5",
         "expo-status-bar": "~1.12.1",
         "expo-updates": "~0.25.17",
+        "expo-web-browser": "~13.0.3",
         "framer-motion": "^4.1.17",
         "intl": "^1.2.5",
         "metro-react-native-babel-transformer": "^0.77.0",
